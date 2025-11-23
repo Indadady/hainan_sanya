@@ -1,587 +1,650 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TW 청주-하이난 CLASS 클라스 (고급) 5일/6일</title>
+    <title>TW 청주-하이난 CLASS 클라스 (고급) 5일/6일 - 투어메이커</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f0f2f5; color: #1a202c; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #334155; }
         
+        /* 히어로 섹션 배경 및 그라디언트 처리 */
         .hero-bg-image {
-            /* [수정] 첫 화면 배경 이미지를 하이난 상징 이미지로 교체 */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://content.r9cdn.net/rimg/dimg/9a/22/760d9ab8-city-48344-16d88c1b6ab.jpg?crop=true&height=498&width=1020'); 
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('https://content.r9cdn.net/rimg/dimg/9a/22/760d9ab8-city-48344-16d88c1b6ab.jpg?crop=true&height=800&width=1200'); 
             background-size: cover;
             background-position: center;
-           }
-        .nav-link { transition: color 0.3s, border-bottom-color 0.3s; }
-        .nav-link:hover, .nav-link.active { color: #059669; border-bottom-color: #059669; } /* emerald-600 */
-        .tab-btn { transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
-        .tab-btn.active { background-color: #047857; color: white; border-color: #047857; } /* emerald-700 */
-        .package-tab-btn.active { background-color: #047857; color: white; border-color: #047857; }
-        .timeline-item::before { content: ''; position: absolute; left: 11px; top: 12px; bottom: -12px; width: 2px; background-color: #e2e8f0; }
+            background-attachment: fixed; /* 패럴랙스 효과 */
+        }
+
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0;
+            background-color: #10b981; transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* 탭 버튼 스타일링 */
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { color: #047857; border-bottom-color: #047857; background-color: rgba(16, 185, 129, 0.1); }
+        
+        .package-tab-btn { transition: all 0.3s; }
+        .package-tab-btn.active { transform: scale(1.05); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+
+        /* 타임라인 스타일 */
+        .timeline-item { position: relative; padding-left: 2.5rem; padding-bottom: 2rem; }
+        .timeline-item::before { 
+            content: ''; position: absolute; left: 0.9rem; top: 0.5rem; bottom: -0.5rem; width: 2px; background-color: #e2e8f0; 
+        }
         .timeline-item:last-child::before { display: none; }
-        .timeline-dot { position: absolute; left: 0; top: 12px; width: 24px; height: 24px; border-radius: 50%; background-color: white; border: 4px solid #047857; }
-        html { scroll-behavior: smooth; }
+        .timeline-icon-wrapper { 
+            position: absolute; left: 0; top: 0; width: 2rem; height: 2rem; 
+            background-color: white; border: 2px solid #10b981; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; z-index: 10;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translate3d(0, 20px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+
+        /* 스크롤 시 헤더에 가리지 않게 조정 */
+        html { scroll-padding-top: 5rem; }
+        
+        /* 스크롤바 숨기기 (가로 스크롤 탭용) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="antialiased">
-    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
+<body class="antialiased selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-sm shadow-md sticky top-0 z-50 transition-all duration-300">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker Logo" class="h-8 w-auto">
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker Logo" class="h-9 w-auto hover:opacity-80 transition-opacity">
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#home" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">상품 개요</a>
-                        <a href="#class" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">CLASS 하이라이트</a>
-                        <a href="#price" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">상품가 & 조건</a>
-                        <a href="#details" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">상세 일정</a>
-                        <a href="#airline" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">항공 정보</a>
-                        <a href="#resort" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">숙소 정보</a>
-                        <a href="#history" class="nav-link px-3 py-2 text-sm font-medium border-b-2 border-transparent">문화/유의사항</a>
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="#class" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">CLASS 하이라이트</a>
+                        <a href="#price" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">상품가 & 조건</a>
+                        <a href="#details" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">상세 일정</a>
+                        <a href="#resort" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">숙소/항공</a>
+                        <a href="#info" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">여행 정보</a>
                     </div>
+                </div>
+                <!-- 모바일 메뉴 버튼 (간소화) -->
+                <div class="md:hidden">
+                    <a href="#price" class="bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">예약하기</a>
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
-        <section id="home" class="hero-bg-image text-white text-center flex items-center justify-center min-h-screen -mt-16">
-            <div class="container mx-auto px-4">
-                <p class="text-xl font-semibold">동양의 하와이, 노쇼핑/노팁 프리미엄 패키지</p>
-                <h1 class="text-5xl md:text-7xl font-black mt-4 leading-tight">TW 청주-하이난 CLASS 클라스</h1>
-                <p class="text-2xl mt-4 font-bold text-emerald-300">청주공항 TW 티웨이 전세기 이용 | 8인 이상 출발 고급 패키지</p>
-                
-                <div class="mt-10 max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
-                    <div class="bg-black/50 p-6 rounded-lg text-left">
-                        <h2 class="text-2xl font-bold mb-4 border-b pb-2 border-emerald-400">3박 5일 (매주 금)</h2>
-                        <ul class="space-y-2 text-lg">
-                            <li><strong class="text-emerald-300">출발일:</strong> 2025.11.17 ~ 2026.02.27 (매주 금)</li>
-                            <li><strong class="text-emerald-300">상품가:</strong> 1,190,000원부터 (12월 기준)</li>
-                            <li><strong class="text-emerald-300">싱글차지:</strong> $180</li>
-                        </ul>
-                    </div>
-                    <div class="bg-black/50 p-6 rounded-lg text-left">
-                        <h2 class="text-2xl font-bold mb-4 border-b pb-2 border-emerald-400">4박 6일 (매주 월)</h2>
-                        <ul class="space-y-2 text-lg">
-                            <li><strong class="text-emerald-300">출발일:</strong> 2025.11.17 ~ 2026.02.27 (매주 월)</li>
-                            <li><strong class="text-emerald-300">상품가:</strong> 1,250,000원부터 (12월 기준)</li>
-                            <li><strong class="text-emerald-300">싱글차지:</strong> $240</li>
-                        </ul>
-                    </div>
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg-image text-white text-center flex items-center justify-center min-h-[90vh] -mt-16">
+            <div class="container mx-auto px-4 animate-fade-in-up">
+                <div class="inline-block bg-emerald-600/90 px-4 py-1 rounded-full mb-4 text-sm font-bold tracking-wide shadow-lg backdrop-blur-sm">
+                    NO 쇼핑 · NO 팁 · NO 옵션 강요
                 </div>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight drop-shadow-lg">
+                    TW 청주-하이난<br><span class="text-emerald-300">CLASS 클라스</span>
+                </h1>
+                <p class="text-lg md:text-2xl font-medium text-gray-100 mb-10 max-w-2xl mx-auto drop-shadow-md">
+                    동양의 하와이에서 누리는 진정한 휴식.<br>
+                    <span class="font-light opacity-90 text-base md:text-lg">청주공항 출발 | 티웨이 전세기 | 5성급 맹글로브 리조트</span>
+                </p>
                 
+                <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 max-w-4xl mx-auto">
+                     <a href="#details" class="bg-white text-emerald-800 px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-emerald-50 transition transform hover:-translate-y-1">
+                        📅 상세 일정 보기
+                    </a>
                 </div>
+            </div>
         </section>
         
-        <section id="class" class="py-16 md:py-24 bg-white">
+        <!-- CLASS Highlights -->
+        <section id="class" class="py-20 bg-white">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-emerald-800">✨ CLASS 클라스 상품의 핵심 가치</h2>
-                <p class="text-xl text-center mb-12 max-w-4xl mx-auto text-gray-700">8인 이상 출발 가능한 **고급 패키지**로, 일반 패키지에서 경험할 수 없는 **프리미엄 일정과 여유**를 제공합니다.</p>
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">✨ 왜 <span class="text-emerald-600">CLASS 상품</span>인가요?</h2>
+                    <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+                        일반 패키지의 피로함은 덜어내고, 자유여행의 여유와 패키지의 편리함만을 담았습니다.
+                    </p>
+                </div>
                 
-                <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-                     <div class="bg-emerald-600 text-white p-6 rounded-xl shadow-xl flex flex-col justify-between">
-                        <div>
-                            <span class="text-4xl mb-3 block">🏝️</span>
-                            <h3 class="text-2xl font-bold mb-3">노쇼핑/노팁 <strong class="text-emerald-200">프리미엄</strong></h3>
-                            <p class="text-lg">여행의 질을 떨어뜨리는 쇼핑/팁 강요를 제거하고, 오직 **관광과 휴식에만 집중**할 수 있도록 설계되었습니다. (단, 농산물+미니선물상점 방문 가능)</p>
-                        </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Card 1 -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow group">
+                        <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-4xl shadow-sm mb-6 group-hover:scale-110 transition-transform">💎</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">3無 프리미엄</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            쇼핑센터 방문 강요, 가이드/기사 팁, 선택 관광 강요가 없습니다. 오직 여행에만 집중하세요.
+                            <br><span class="text-xs text-slate-400 mt-2 block">*단, 농산물 등 현지 특산품 자율 구매 가능</span>
+                        </p>
                     </div>
-                    <div class="bg-blue-600 text-white p-6 rounded-xl shadow-xl flex flex-col justify-between">
-                        <div>
-                            <span class="text-4xl mb-3 block">🌟</span>
-                            <h3 class="text-2xl font-bold mb-3">5가지 <strong class="text-blue-200">특별한 특전</strong> 포함</h3>
-                            
-                            <img src="https://ak-d.tripcdn.com/images/0104912000ar87mlg95FD.png?proc=source%2Ftrip" alt="하이난 별빛투어 유람선" class="rounded-lg shadow-md my-4">
-
-                            <ul class="list-disc list-inside ml-4 text-lg">
-                                <li>별빛투어 유람선</li>
-                                <li>아룡만 열대천당 & 유리잔도</li>
-                                <li>녹회두 야경투어</li>
-                                <li>전신마사지 1시간</li>
-                                <li>삼겹살 무제한 식사</li>
-                            </ul>
-                        </div>
+                    <!-- Card 2 -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow group">
+                        <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-4xl shadow-sm mb-6 group-hover:scale-110 transition-transform">🎁</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">5대 핵심 특전</h3>
+                        <ul class="text-slate-600 space-y-2 text-sm md:text-base">
+                            <li class="flex items-center"><span class="text-emerald-500 mr-2">✔</span>낭만의 별빛투어 유람선</li>
+                            <li class="flex items-center"><span class="text-emerald-500 mr-2">✔</span>아룡만 열대천당 & 유리잔도</li>
+                            <li class="flex items-center"><span class="text-emerald-500 mr-2">✔</span>녹회두 공원 야경 투어</li>
+                            <li class="flex items-center"><span class="text-emerald-500 mr-2">✔</span>전신 마사지 1시간</li>
+                            <li class="flex items-center"><span class="text-emerald-500 mr-2">✔</span>삼겹살 무제한 특식</li>
+                        </ul>
                     </div>
-                    <div class="bg-orange-600 text-white p-6 rounded-xl shadow-xl flex flex-col justify-between">
-                        <div>
-                            <span class="text-4xl mb-3 block">⭐️⭐️⭐️⭐️⭐️</span>
-                            <h3 class="text-2xl font-bold mb-3">특급 <strong class="text-orange-200">맹글로브 리조트</strong></h3>
-                            
-                            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjAo_Hb9L3zgkBBZExKQ46wiPN2AMl7KrfMn2J8KxWB8IqB7ZA-wy2GSaG9gv7KZFXlbLjOpqwE34W15p-Els684cMOQ8Pli_1yInh-fo2xaL6cVQV1FzvOf1TTggd-ML848RmD6nVU9aMw-kwjWJgfjXN39r9F49-qPVCDsr0o0b8bhITN1uWA88Bb5_0=w400-h236" alt="맹글로브 킹 퀀 팜 타워 객실" class="rounded-lg shadow-md my-4">
-
-                            <p class="text-lg">하이난 최고급 휴양 리조트인 <strong class="font-bold">맹글로브 리조트 (5성급)</strong> 킹/퀀팜타워에 2인 1실로 투숙하여 편안하고 품격 있는 휴식을 보장합니다.</p>
-                            <p class="text-sm mt-2">※ 6일 상품 Day 4 전일 워터파크 등 부대시설 무료 이용 포함 </p>
-                        </div>
+                    <!-- Card 3 -->
+                    <div class="bg-slate-50 border border-slate-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow group">
+                        <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-4xl shadow-sm mb-6 group-hover:scale-110 transition-transform">🏨</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">5성급 맹글로브</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            하이난 최대 규모의 복합 리조트. 킹/퀸팜 타워 객실 투숙으로 격조 높은 휴식을 보장합니다.
+                            <br><span class="text-emerald-600 font-bold text-sm mt-2 block">※ 워터파크 등 부대시설 무료 이용 포함</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="price" class="py-16 md:py-24 bg-gray-100">
+        <!-- Price Section -->
+        <section id="price" class="py-20 bg-slate-100">
             <div class="container mx-auto px-4">
-                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">💰 상품 가격 및 예약 조건</h2>
-                 <div class="max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
-                    
-                    <div class="mb-8 flex justify-center space-x-4">
-                        <button class="package-tab-btn active text-lg font-bold py-3 px-6 border-b-2 rounded-lg border-emerald-700 bg-emerald-700 text-white" data-package="5day">청주-하이난 3박 5일</button>
-                        <button class="package-tab-btn text-lg font-bold py-3 px-6 border-b-2 rounded-lg border-gray-300 text-gray-700" data-package="6day">청주-하이난 4박 6일</button>
+                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">📅 출발일 및 상품가</h2>
+                 
+                 <div class="max-w-4xl mx-auto">
+                    <!-- Tab Headers -->
+                    <div class="flex justify-center space-x-2 md:space-x-4 mb-8">
+                        <button class="package-tab-btn active w-1/2 md:w-auto text-lg font-bold py-4 px-8 rounded-xl bg-emerald-700 text-white shadow-lg border-2 border-emerald-700" data-package="5day">
+                            3박 5일 <span class="block text-xs font-normal opacity-80 mt-1">(매주 금요일 출발)</span>
+                        </button>
+                        <button class="package-tab-btn w-1/2 md:w-auto text-lg font-bold py-4 px-8 rounded-xl bg-white text-gray-500 shadow-sm border-2 border-transparent hover:border-gray-300" data-package="6day">
+                            4박 6일 <span class="block text-xs font-normal opacity-80 mt-1">(매주 월요일 출발)</span>
+                        </button>
                     </div>
 
-                    <div id="price-table-container">
-                        <div id="price-5day" class="price-table">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">구분</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">출발일</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">상품가 (팁 포함)</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">비고</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">정상가</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">2025년 12월 (매주 금)</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-lg font-bold text-emerald-600 text-center">1,190,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">정상가</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">2026년 1월 ~ 2월 (매주 금)</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-lg font-bold text-emerald-600 text-center">1,290,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                    <tr class="bg-red-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-800 text-center" rowspan="2">구정연휴 (Sur-Charge)</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-center">2/20 출발</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">1,690,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                    <tr class="bg-red-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-center">2/27 출발</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">1,590,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <!-- Price Tables -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                         <!-- 5 Day Table -->
+                         <div id="price-5day" class="price-table p-4 md:p-8">
+                            <div class="text-center mb-6">
+                                <h3 class="text-2xl font-bold text-emerald-800">금요일 퇴근 후 떠나는 3박 5일</h3>
+                                <p class="text-gray-500">직장인을 위한 알찬 일정</p>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="text-gray-500 border-b border-gray-200">
+                                            <th class="py-3 px-4 font-medium">기간</th>
+                                            <th class="py-3 px-4 font-medium">출발일</th>
+                                            <th class="py-3 px-4 font-medium text-right">상품가(1인)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-gray-700">
+                                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="py-4 px-4 font-bold">12월</td>
+                                            <td class="py-4 px-4">매주 금</td>
+                                            <td class="py-4 px-4 text-right text-lg font-bold text-emerald-600">1,190,000원</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="py-4 px-4 font-bold">1월~2월</td>
+                                            <td class="py-4 px-4">매주 금</td>
+                                            <td class="py-4 px-4 text-right text-lg font-bold text-emerald-600">1,290,000원</td>
+                                        </tr>
+                                        <tr class="bg-red-50/50">
+                                            <td class="py-4 px-4 font-bold text-red-600">구정연휴</td>
+                                            <td class="py-4 px-4 text-red-600">2/20, 2/27</td>
+                                            <td class="py-4 px-4 text-right text-lg font-bold text-red-600">1,590,000원~</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                          </div>
                          
-                         <div id="price-6day" class="price-table hidden">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">구분</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">출발일</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">상품가 (팁 포함)</th>
-                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">비고</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">정상가</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">2025년 12월 (매주 월)</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-lg font-bold text-emerald-600 text-center">1,250,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">2026년 1월 ~ 2월 (매주 월)</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-lg font-bold text-emerald-600 text-center">1,350,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                    <tr class="bg-red-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-800 text-center" rowspan="2">구정연휴 (Sur-Charge)</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-center">2/16 출발</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">1,850,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                    <tr class="bg-red-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-center">2/23 출발</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">1,650,000원</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">팁 15만 원 포함</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                         <!-- 6 Day Table -->
+                         <div id="price-6day" class="price-table hidden p-4 md:p-8">
+                            <div class="text-center mb-6">
+                                <h3 class="text-2xl font-bold text-emerald-800">여유로운 4박 6일</h3>
+                                <p class="text-gray-500">리조트 전일 자유시간 1일 포함</p>
+                            </div>
+                             <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="text-gray-500 border-b border-gray-200">
+                                            <th class="py-3 px-4 font-medium">기간</th>
+                                            <th class="py-3 px-4 font-medium">출발일</th>
+                                            <th class="py-3 px-4 font-medium text-right">상품가(1인)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-gray-700">
+                                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="py-4 px-4 font-bold">12월</td>
+                                            <td class="py-4 px-4">매주 월</td>
+                                            <td class="py-4 px-4 text-right text-lg font-bold text-emerald-600">1,250,000원</td>
+                                        </tr>
+                                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="py-4 px-4 font-bold">1월~2월</td>
+                                            <td class="py-4 px-4">매주 월</td>
+                                            <td class="py-4 px-4 text-right text-lg font-bold text-emerald-600">1,350,000원</td>
+                                        </tr>
+                                        <tr class="bg-red-50/50">
+                                            <td class="py-4 px-4 font-bold text-red-600">구정연휴</td>
+                                            <td class="py-4 px-4 text-red-600">2/16, 2/23</td>
+                                            <td class="py-4 px-4 text-right text-lg font-bold text-red-600">1,650,000원~</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                          </div>
                     </div>
-
-                    <div class="mt-8 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-gray-700 italic rounded-md">
-                        <p class="font-semibold text-emerald-800 mb-2">📢 중요 예약 조건</p>
-                        <ul class="list-disc list-inside ml-4 text-sm md:text-base space-y-1">
-                            <li>항공료 및 인프라 비용이 선지급되는 **전세편 이용 상품**으로 예약 시 **계약금 20만 원/인**이 필수입니다.</li>
-                            <li>포함사항: 항공, 텍스, 보험, 호텔/리조트(2인1실), 전용버스, 입장료, 식사, 가이드/기사팁 모두 포함.</li>
-                            <li>불포함사항: 싱글차지($180 또는 $240), 기타 개인 경비 外.</li>
+                    
+                    <!-- 중요 예약 조건 추가 -->
+                    <div class="mt-8 p-6 bg-emerald-50 border-l-4 border-emerald-500 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-emerald-800 mb-4">📢 중요 예약 조건</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-700">
+                            <li>항공료 및 인프라 비용이 선지급되는 <strong class="text-emerald-700">전세편 이용 상품</strong>으로 예약 시 <strong class="text-emerald-700">계약금 20만 원/인</strong>이 필수입니다.</li>
+                            <li><strong class="text-slate-800">포함사항:</strong> 항공, 텍스, 보험, 호텔/리조트(2인1실), 전용버스, 입장료, 식사, 가이드/기사팁 모두 포함.</li>
+                            <li><strong class="text-slate-800">불포함사항:</strong> 싱글차지($180 또는 $240), 기타 개인 경비 外.</li>
                         </ul>
                     </div>
-                </div>
+                    
+                    <p class="text-center mt-4 text-sm text-gray-500">* 유류할증료 및 가이드/기사 경비(팁) 모두 포함된 최종 가격입니다.</p>
+                 </div>
             </div>
         </section>
 
-        <section id="details" class="py-16 md:py-24 bg-white">
+        <!-- Details Itinerary Section -->
+        <section id="details" class="py-20 bg-white">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">🌴 상품별 상세 일정 비교</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">🌴 상세 일정표</h2>
                 
-                <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 mb-10">
-                    <div class="p-4 bg-blue-50 rounded-lg shadow-md">
-                        <h3 class="text-xl font-bold text-blue-800 mb-2">특전 1: 아룡만 유리잔도</h3>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Glass_Trestle_with_Full_Sea_View_%28Yalong_Bay_Forest_Park_Glass_Bridge%29_in_July_2025.jpg" alt="아룡만 열대천당 유리잔도" class="rounded-lg shadow-sm w-full h-40 object-cover my-2">
-                        <p class="text-sm text-gray-700">최고의 전망대에서 하이난의 아름다운 절경을 조망합니다.</p>
+                <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 mb-12">
+                    <!-- 이미지 및 텍스트 교체: 일월만 비치 & 서핑 -->
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg h-48">
+                        <img src="https://p8.itc.cn/images01/20210301/3a36b352ec3a4b43a7af73461c079603.jpeg" alt="일월만 서핑" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-white text-xl font-bold">일월만 비치 & 서핑</h3>
+                            <p class="text-gray-200 text-sm">중국의 서핑 성지, 트렌디한 해변 문화</p>
+                        </div>
                     </div>
-                     <div class="p-4 bg-blue-50 rounded-lg shadow-md">
-                        <h3 class="text-xl font-bold text-blue-800 mb-2">특전 2: 녹회두 야경투어</h3>
-                        <img src="https://res.klook.com/images/fl_lossy.progressive%2Cq_65/c_fill%2Cw_1295%2Ch_717/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/rari3xzhksyvmf9kmhfd/LuhuitouScenicArea.jpg" alt="녹회두 야경" class="rounded-lg shadow-sm w-full h-40 object-cover my-2">
-                        <p class="text-sm text-gray-700">싼야 시내를 한눈에 내려 볼 수 있는 낭만적인 야경투어.</p>
+                     <div class="group relative overflow-hidden rounded-2xl shadow-lg h-48">
+                        <img src="https://res.klook.com/images/fl_lossy.progressive%2Cq_65/c_fill%2Cw_1295%2Ch_717/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/rari3xzhksyvmf9kmhfd/LuhuitouScenicArea.jpg" alt="녹회두 야경" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-white text-xl font-bold">녹회두 야경투어</h3>
+                            <p class="text-gray-200 text-sm">싼야 시내를 한눈에 담는 낭만</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="max-w-5xl mx-auto">
-                    <div class="mb-8 flex justify-center border-b">
-                        <button class="tab-btn active text-lg font-bold py-3 px-6 border-b-2" data-tab="day1">DAY 1</button>
-                        <button class="tab-btn text-lg font-bold py-3 px-6 border-b-2" data-tab="day2">DAY 2</button>
-                        <button class="tab-btn text-lg font-bold py-3 px-6 border-b-2" data-tab="day3">DAY 3</button>
-                        <button class="tab-btn text-lg font-bold py-3 px-6 border-b-2" data-tab="day4">DAY 4</button>
-                        <button class="tab-btn text-lg font-bold py-3 px-6 border-b-2" data-tab="day5_end">DAY 5/6 (마무리)</button>
+                <div class="max-w-4xl mx-auto">
+                    <!-- Day Tabs -->
+                    <div class="flex overflow-x-auto pb-4 mb-6 gap-2 no-scrollbar" id="day-tabs-container">
+                        <!-- JS generated buttons -->
+                        <button class="tab-btn active shrink-0 px-6 py-2 rounded-full border border-emerald-200 font-bold bg-emerald-50 text-emerald-700" data-tab="day1">1일차</button>
+                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day2">2일차</button>
+                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day3">3일차</button>
+                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day4">4일차</button>
+                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day5_end">마무리</button>
                     </div>
-                    <div id="tabs-content" class="p-4">
+
+                    <!-- Itinerary Content -->
+                    <div id="tabs-content" class="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm min-h-[400px]">
+                        <!-- Content Injected by JS -->
                     </div>
-                    <p class="text-center text-sm text-gray-500 mt-8">※ 상기 일정은 전세편 운항 및 현지 사정/날씨에 의해 변동될 수 있습니다.</p>
                 </div>
             </div>
         </section>
 
-        <section id="airline" class="py-16 md:py-24 bg-gray-200">
+        <!-- Resort & Airline Grid -->
+        <section id="resort" class="py-20 bg-slate-900 text-white">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-blue-800">✈️ 항공 정보: TW 티웨이항공 (청주 전세기)</h2>
-                <div class="max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
-                    
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
-                        <div>
-                             <h3 class="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">항공기 외관</h3>
-                             <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/HL8294_-_T%27Way_Air_-_Boeing_737-8Q8%28WL%29_-_ICN_%2816557507037%29.jpg" alt="티웨이 항공기" class="rounded-lg shadow-md w-full object-cover h-48">
+                <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                    <!-- Resort Info: 상세 내용 추가 -->
+                    <div>
+                        <div class="flex items-center mb-6">
+                            <span class="bg-emerald-500 text-xs font-bold px-2 py-1 rounded mr-3">5성급</span>
+                            <h2 class="text-3xl font-bold">맹글로브 리조트</h2>
                         </div>
-                        <div>
-                             <h3 class="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">기내 내부</h3>
-                             <img src="https://pointsfromthepacific.boardingarea.com/wp-content/uploads/2025/05/TWay-8444-768x1024.jpg" alt="티웨이 기내" class="rounded-lg shadow-md w-full object-cover h-48">
+                        <div class="space-y-4 text-slate-300 leading-relaxed mb-8">
+                            <p><strong class="text-white">위치:</strong> 중국 하이난성 Sanya 내, Fenghuang Road No.155</p>
+                            <p><strong class="text-white">개념:</strong> '리조트 + 엔터테인먼트 + 쇼핑몰'이 결합된 초대형 복합문화공간</p>
+                            <p><strong class="text-white">CLASS 객실:</strong> 킹 또는 퀸팜 타워 객실 투숙</p>
+                            <p><span class="text-emerald-400">※ 4박 6일 상품 Day 4 전일, 아마존 정글 워터파크 등 부대시설 무료 이용</span></p>
+                            
+                            <h4 class="text-lg font-bold text-white mt-6 mb-2">주요 특장점</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>가족 친화 시설:</strong> 약 33,000㎡ 규모의 아마존 정글 워터파크 보유</li>
+                                <li><strong>테마 객실:</strong> 가족 및 키즈 전용 스위트룸 등 다양한 테마 객실</li>
+                                <li><strong>원스톱 라이프스타일:</strong> 내부에 Lifestyle Mall, 아울렛, 영화관, Food Street 조성</li>
+                                <li><strong>입점 브랜드:</strong> 스타벅스, KFC, 로손 편의점, H&M, 나이키, 아디다스 등</li>
+                            </ul>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/175192257.jpg?k=fac02f3a6ab58e84118eb5ae00a021278a74aa1e0182045fd0647a6e6301f4da&o=" alt="워터파크" class="rounded-lg h-32 w-full object-cover hover:opacity-90 transition">
+                            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/186504366.jpg?k=a02609da17ba2f407f2dec18c8b8ebb94da2371f53f11abd35946e95711e0134&o=" alt="객실" class="rounded-lg h-32 w-full object-cover hover:opacity-90 transition">
                         </div>
                     </div>
+                    <!-- Airline Info: 상세 내용 추가 -->
+                    <div>
+                         <div class="flex items-center mb-6">
+                            <span class="bg-red-500 text-xs font-bold px-2 py-1 rounded mr-3">전세기</span>
+                            <h2 class="text-3xl font-bold">티웨이 항공 (TW)</h2>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <div class="text-center">
+                                    <p class="text-sm text-slate-400">청주(CJJ)</p>
+                                    <p class="text-2xl font-bold">20:40</p>
+                                </div>
+                                <div class="flex flex-col items-center text-slate-400">
+                                    <span>✈️ 4h 50m</span>
+                                    <hr class="w-24 border-slate-600 my-2">
+                                    <span>TW633</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-sm text-slate-400">삼아(SYX)</p>
+                                    <p class="text-2xl font-bold">00:30<small class="text-sm">(+1)</small></p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center mb-6">
+                                <div class="text-center">
+                                    <p class="text-sm text-slate-400">삼아(SYX)</p>
+                                    <p class="text-2xl font-bold">01:30</p>
+                                </div>
+                                <div class="flex flex-col items-center text-slate-400">
+                                    <span>✈️ 5h 00m</span>
+                                    <hr class="w-24 border-slate-600 my-2">
+                                    <span>TW634</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-sm text-slate-400">청주(CJJ)</p>
+                                    <p class="text-2xl font-bold">06:30</p>
+                                </div>
+                            </div>
+
+                            <h4 class="text-lg font-bold text-white mb-3">🚨 LCC 이용 시 필수 확인 사항</h4>
+                            <ul class="text-sm text-slate-300 space-y-2">
+                                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span>위탁 수하물 20KG / 기내 반입 10KG 허용</li>
+                                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span><strong class="text-white">기내식 미제공</strong> (사전 주문 또는 기내 스낵바 유료 이용)</li>
+                                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span>3-3 좌석 배열 (B737-800 기종 예정)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Section: 여행 정보 및 유의사항 -->
+        <section id="info" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">📜 하이난 여행 정보 및 유의사항</h2>
+                <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
                     
-                    <div class="p-4 bg-red-50 border-l-4 border-red-500 text-gray-700 rounded-md">
-                        <p class="font-semibold text-red-800 mb-2">🚨 LCC 이용 시 필수 확인 사항</p>
-                        <ul class="list-disc list-inside ml-4 text-sm md:text-base space-y-1">
-                            <li>**수화물 규정:** 위탁 수화물 **20KG** / 기내 반입 **10KG** 허용.</li>
-                            <li>**기내식:** LCC(저가 항공사) 운항으로 **기내식은 별도로 제공되지 않습니다.**</li>
-                            <li>**비행 스케줄:** 청주 출발 20:40 / 하이난 도착 00:30(+1) / 복편 하이난 출발 01:30 / 청주 도착 06:30.</li>
+                    <!-- 하이난 개요 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-emerald-800 mb-6 flex items-center">
+                            <span class="bg-emerald-100 text-emerald-600 p-2 rounded-lg mr-3">🌴</span>
+                            하이난 개요 및 문화적 특징
+                        </h3>
+                        <ul class="space-y-4 text-slate-700 leading-relaxed">
+                            <li><strong class="text-slate-900">지리:</strong> 중국 최남단 성으로 본섬 외 여러 부속 도서를 포함. 해안선 약 1,944km, 68개의 만(灣) 보유.</li>
+                            <li><strong class="text-slate-900">역사/민족:</strong> 원주민인 **리족(Li People)**은 기원전 200년경 이주. 독특한 제직 문화와 '삼월삼(三月三)' 축제 등이 특징.</li>
+                            <li><strong class="text-slate-900">관광 위상:</strong> 과거의 한계지역에서 벗어나 최근 **'중국의 하와이'**로 불리며 세계적인 리조트 중심 관광지로 급부상.</li>
+                            <li><strong class="text-slate-900">대표 음식:</strong> **원창지(Wenchang Chicken, 문창닭)**는 국제적으로 알려진 하이난의 대표적인 향토 요리.</li>
                         </ul>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="resort" class="py-16 md:py-24 bg-emerald-700">
-             <div class="container mx-auto px-4 text-white">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">🏨 투숙 리조트: 맹글로브 리조트 (5성급) 상세 분석</h2>
-                <div class="max-w-6xl mx-auto bg-black/20 p-8 rounded-xl shadow-2xl">
-                    
-                    <h3 class="text-3xl font-bold mb-6 text-emerald-300 border-b pb-2 border-emerald-400">CLASS 투숙 기준 및 개요</h3>
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
-                        
-                        <div>
-                             <h4 class="text-xl font-bold mb-4 text-emerald-200">리조트 개요 및 등급</h4>
-                            <ul class="space-y-3 text-lg">
-                                <li><strong class="font-bold text-emerald-300">위치:</strong> 중국 하이난성 Sanya 내, Fenghuang Road No.155에 자리.</li>
-                                <li><strong class="font-bold text-emerald-300">등급/구성:</strong> 5성급 복합 리조트. 다양한 타워(Kapok, Buddha, King/Queen Palm 등)로 구성되어 다양한 고객층 수용.</li>
-                                <li><strong class="font-bold text-emerald-300">개념:</strong> '리조트 + 엔터테인먼트 + 쇼핑몰'이 결합된 복합문화공간으로 설계.</li>
-                            </ul>
-                             <blockquote class="p-4 bg-emerald-800 rounded-md mt-6">
-                                <p class="text-xl font-bold mb-2">CLASS 숙소 기준</p>
-                                <p class="text-lg">**킹 또는 퀀팜타워** 객실 기준 투숙</p>
-                                <p class="mt-2 text-sm text-emerald-200">※ 4박 6일 상품 Day 4 전일, **아마존 정글 워터파크** 등 부대시설 **무료 이용** 기회 제공 </p>
-                            </blockquote>
-                        </div>
-                        
-                        <div>
-                            <h4 class="text-xl font-bold mb-4 text-emerald-200">주요 특장점 (여행상품 기획 관점)</h4>
-                            <ul class="list-disc list-inside ml-4 space-y-3 text-lg">
-                                <li>**가족 친화 시설:** 약 33,000 ㎡ 규모의 아마존 정글 워터파크가 있어 어린이 및 가족 여행객에게 적합.</li>
-                                <li>**테마 객실:** 가족 및 키즈 전용 스위트룸 등 테마성을 강조한 객실 마련.</li>
-                                <li>**쇼핑/엔터테인먼트 연계:** Lifestyle Mall, 아울렛, 영화관 등 다양한 경험 시설이 내부에 조성.</li>
-                                <li>**위치적 강점:** 해변 인근 위치로 바다 전망 및 해변 접근성이 우수함.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <h3 class="text-2xl font-bold mb-6 text-emerald-300 border-b pb-2 border-emerald-400">리조트 주요 시설 이미지</h3>
-                    <div class="grid md:grid-cols-3 gap-4">
-                        
-                        <div>
-                            <h4 class="text-lg font-bold mb-2 text-emerald-200">워터파크 (패밀리존)</h4>
-                             <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/175192257.jpg?k=fac02f3a6ab58e84118eb5ae00a021278a74aa1e0182045fd0647a6e6301f4da&o=" alt="아마존 정글 워터파크" class="rounded-lg shadow-md w-full h-48 object-cover">
-                        </div>
-                        
-                        <div>
-                            <h4 class="text-lg font-bold mb-2 text-emerald-200">메인 실내 수영장</h4>
-                             <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/186504366.jpg?k=a02609da17ba2f407f2dec18c8b8ebb94da2371f53f11abd35946e95711e0134&o=" alt="리조트 실내 수영장" class="rounded-lg shadow-md w-full h-48 object-cover">
-                        </div>
 
-                        <div>
-                            <h4 class="text-lg font-bold mb-2 text-emerald-200">리조트 로비 및 공용 공간</h4>
-                             <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/186503702.jpg?k=444a5cc5807a69b01dfb32c1cbcfc2bb5e9821f5dc7ddde59f4a94ee4677493e&o=" alt="리조트 로비" class="rounded-lg shadow-md w-full h-48 object-cover">
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-        
-        <section id="history" class="py-16 md:py-24 bg-gray-100">
-             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">📜 하이난 역사·문화 및 여행 시 유의사항</h2>
-                <div class="max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
-                    
-                    <h3 class="text-2xl font-bold mb-4 text-emerald-700 border-b pb-2">하이난 개요 및 문화적 특징</h3>
-                    <div class="grid md:grid-cols-2 gap-6 mb-8">
-                        <div>
-                            <ul class="list-disc list-inside ml-4 space-y-3 text-gray-700">
-                                <li>**지리:** 하이난성은 중국 최남단 성이며 본섬 외 여러 부속 도서를 포함하고 있습니다. 해안선은 약 1,944 km이며 68개의 만(灣)이 있다고 소개됩니다.</li>
-                                <li>**역사/민족:** 원주민인 **Li People(리족)**은 약 200 BC경 이주해 왔으며, 독특한 제직 문화와 '삼월삼(三月三)' 축제 등을 보유합니다.</li>
-                                <li>**관광 위상:** 과거 한계지역에서 최근에는 **'중국의 하와이'**로 불리며 리조트 중심 관광지로 성장했습니다.</li>
-                                <li>**대표 음식:** **Wenchang Chicken(분명지역 닭요리)**은 국제적으로도 알려진 하이난의 대표 향토음식입니다.</li>
-                            </ul>
-                        </div>
-                         <div>
-                            <img src="https://biz.chosun.com/resizer/v2/JVO2O25VUFC35N365L5V5WCEG4.jpg?auth=30b7c855b82c7f9d3e567262c5ca288e079f68e9ec5aacf5fd3555c21c76b82e&width=2560" alt="하이난 리족 민속 문화 이미지" class="rounded-lg shadow-md w-full h-auto object-cover">
+                    <!-- 여행 시 유의사항 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-l-4 border-red-400">
+                        <h3 class="text-2xl font-bold text-red-800 mb-6 flex items-center">
+                            <span class="bg-red-100 text-red-600 p-2 rounded-lg mr-3">🚨</span>
+                            여행 시 중요 유의사항
+                        </h3>
+                        <div class="space-y-6 text-slate-700 leading-relaxed">
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-900 mb-2">날씨 및 시즌 리스크</h4>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><strong class="text-red-600">관광 적기:</strong> 건기인 **10월부터 3월까지**가 가장 좋습니다.</li>
+                                    <li><strong class="text-red-600">태풍 주의:</strong> 6월~10월은 비·태풍 위험이 있습니다. 항공/해상 운항 중단 리스크를 염두에 두어야 합니다.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-slate-900 mb-2">입국/결제 및 문화 팁</h4>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><strong>무비자 정책:</strong> 한국 여권 소지자는 **30일 무비자 입국**이 가능합니다.</li>
+                                    <li><strong>모바일 결제:</strong> 현금보다 **WeChat Pay, Alipay** 사용이 일반적입니다. 사전 준비를 권장합니다.</li>
+                                    <li><strong>언어:</strong> 영어 통용이 제한적일 수 있으므로 간단한 중국어 표현이나 **번역 앱** 준비가 필수입니다.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
-                    <h3 class="text-2xl font-bold mb-4 text-red-700 border-b pb-2 mt-8">여행 시 중요 유의사항</h3>
-                    <div class="space-y-6">
-                        
-                        <div>
-                            <h4 class="text-xl font-bold mb-3 text-red-600">날씨 및 시즌 리스크 관리</h4>
-                            <ul class="list-disc list-inside ml-4 space-y-3 text-gray-700">
-                                <li>**관광 적기:** 건기인 10월부터 3월까지가 관광 적기입니다.</li>
-                                <li>**태풍 주의:** 비·태풍의 위험이 있는 6월~10월에는 일정 조정 가능성을 염두에 두어야 합니다. 태풍 'Wutip' 사례처럼 항공/해상 운항 중단 리스크가 있습니다.</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <h4 class="text-xl font-bold mb-3 text-red-600">입국/결제 및 문화 팁</h4>
-                            <ul class="list-disc list-inside ml-4 space-y-3 text-gray-700">
-                                <li>**무비자 정책:** 하이난은 일부 국가(한국 포함) 여권 소지자에 대해 **30일 무비자 입국 정책**을 시행하고 있습니다.</li>
-                                <li>**모바일 결제:** 현지에서는 **WeChat, Alipay 등 모바일 결제** 사용이 일반적이므로, 외국인 이용을 위한 사전 준비가 필요할 수 있습니다.</li>
-                                <li>**언어:** 영어 사용 범위가 제한적일 수 있어 기본적인 중국어 표현이나 번역 앱 준비를 권장합니다.</li>
-                            </ul>
-                        </div>
-                        
-                        </div>
                 </div>
             </div>
         </section>
-
 
     </main>
 
-    <footer class="bg-gray-800 text-white text-center py-6">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker" class="h-8 mx-auto mb-4 opacity-80">
-        <p>&copy; 2025 Tourmaker. All Rights Reserved.</p>
-        <p>Tourmaker X Flyunity (해외 중국, 일본, 동남아 전문 랜드사) 협력 상품</p>
+    <!-- Floating Action Button (Mobile/Desktop) -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <a href="tel:010-1234-5678" class="bg-emerald-600 hover:bg-emerald-700 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-110" aria-label="전화 문의">
+            <span class="text-2xl">📞</span>
+        </a>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800">
+        <div class="container mx-auto px-4 text-center">
+            <!-- Logo -->
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHfgIX70O5k6Anuo0UgALIdaG9jSga9auHu3uyz0uEirylGPAJnjN_qQbvEGMUvPqUQf_g9FMNUHRxlDcUBf4vZ3Mpy4TnA9WxbmzWYK11gt2zuy_Irl4wctNFjcjLyPo0GPXV792o_J7L9guRMuDfeC1gy7USwywjYbECZgzcsHybuGRRAXAnO1eNmP8/s320/logo.png" alt="Tourmaker" class="h-8 mx-auto mb-6 opacity-60 grayscale hover:grayscale-0 transition duration-500">
+            <p class="text-sm mb-2">&copy; 2025 Tourmaker. All Rights Reserved.</p>
+            <p class="text-xs text-slate-600">본 상품은 Tourmaker와 Flyunity(랜드사)가 협력하여 기획한 단독 상품입니다.</p>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             
-            const scheduleData_5day = {
+            // 데이터 정의
+            const scheduleData = {
                 day1: {
-                    title: 'DAY 1: 청주 출발 및 하이난 도착 (3박 5일 / 4박 6일 공통)',
+                    title: 'DAY 1: 설레는 출발',
                     items: [
-                        { time: '18:00', desc: '청주공항 1층 출발층 집결', icon: '🚌' },
-                        { time: '20:40', desc: '청주 출발 / 하이난(삼아) 향발 (TW633)', icon: '✈️' },
-                        { time: '00:30(+1)', desc: '하이난(삼아) 도착, 입국수속 후 가이드 미팅', icon: '🛬' },
-                        { time: '새벽', desc: '전용차량으로 맹글로브 리조트 이동 및 투숙/휴식', icon: '🌙' },
+                        { time: '18:00', desc: '청주공항 1층 티웨이 카운터 앞 집결', icon: '📍' },
+                        { time: '20:40', desc: '청주 출발 (TW633) - 약 4시간 50분 소요', icon: '✈️' },
+                        { time: '00:30', desc: '하이난 삼아 공항 도착 및 가이드 미팅', icon: '🛬' },
+                        { time: '숙박', desc: '맹글로브 리조트 체크인 및 휴식', icon: '🏨' },
                     ]
                 },
                 day2: {
-                    title: 'DAY 2: 맹글로브 휴식과 문화/자연 탐방 (3박 5일 / 4박 6일 공통)',
+                    title: 'DAY 2: 하이난 문화 탐방',
                     items: [
-                        { time: '오전', desc: '리조트 뷔페조식 후 **호텔 내 휴식 또는 부대시설 이용 자유시간**', icon: '🥐' },
-                        { time: '오후', desc: '하이난 **남산문화원 풍경구 (남산사/대소동천)** 탐방 (코끼리/전동카 포함)', icon: '🏛️' },
-                        { time: '오후', desc: '하이난의 열대과일을 맛볼 수 있는 **열대과일시장** 방문', icon: '🥭' },
-                        { time: '저녁', desc: '🌟 **[특전]** 하이난의 낭만을 즐기는 **별빛투어 유람선**', icon: '🚢' },
-                        { time: '식사', desc: 'B: 호텔식, L: 현지식, D: 샤브샤브', icon: '🍴' },
+                        { time: '오전', desc: '리조트 조식 후 자유시간 및 부대시설 이용', icon: '☕' },
+                        { time: '오후', desc: '남산문화원 풍경구 (남산사/해수관음상) - 전동카 포함', icon: '🙏' },
+                        { time: '오후', desc: '현지 열대과일 시장 방문 및 시식', icon: '🥭' },
+                        { time: '저녁', desc: '✨ [특전] 별빛투어 유람선 탑승', icon: '🚢' },
+                        { time: '식사', desc: '조: 호텔식 / 중: 현지식 / 석: 샤브샤브', icon: '🍴' }
                     ]
                 },
                 day3: {
-                    title: 'DAY 3: 민속촌 및 서핑 명소 탐방 (3박 5일 / 4박 6일 공통)',
+                    title: 'DAY 3: 로컬 체험과 액티비티',
                     items: [
-                        { time: '오전', desc: '리조트 뷔페조식 후', icon: '🥐' },
-                        { time: '오전', desc: '하이난 최대 전통민속촌 **삥랑빌리지** (민속공연 포함)', icon: '🎎' },
-                        { time: '오후', desc: '원숭이들의 천국 **원숭이섬** (케이블카 탑승)', icon: '🐒' },
-                        { time: '오후', desc: '아시아 핫플레이스/서핑성지 **일월만 비치+Bar 스트리트**', icon: '🏄' },
-                        { time: '식사', desc: 'B: 호텔식, L: 현지식, D: **삼겹살 무제한** (특전)', icon: '🍴' },
+                        { time: '오전', desc: '삥랑빌리지 (소수민족 민속촌) - 공연 관람', icon: '👺' },
+                        { time: '오후', desc: '원숭이섬 (케이블카 왕복 탑승)', icon: '🐒' },
+                        { time: '오후', desc: '일월만 비치 & Bar 스트리트 자유 산책', icon: '🏄' },
+                        { time: '저녁', desc: '✨ [특전] 삼겹살 무제한 특식', icon: '🍖' },
+                        { time: '식사', desc: '조: 호텔식 / 중: 현지식 / 석: 삼겹살', icon: '🍴' }
                     ]
                 },
+                // 3박 5일용 Day 4
                 day4_5day: {
-                    title: 'DAY 4: 하이난 명소 및 귀국 준비 (3박 5일 전용)',
+                    title: 'DAY 4: 핵심 관광 후 귀국 (3박 5일)',
+                    note: '🚨 3박 5일 상품은 오늘 밤 공항으로 이동합니다.',
                     items: [
-                        { time: '오전', desc: '리조트 뷔페조식 후', icon: '🥐' },
-                        { time: '오전', desc: '🌟 **[특전]** 최고의 전망대 **아룡만열대천당** (유리잔도 포함)', icon: '🏞️' },
-                        { time: '오후', desc: '아름다운 절경의 **천애해각** (전동카 포함)', icon: '🌊' },
-                        { time: '저녁', desc: '싼야 시내 최대 번화가 **푸싱제** 및 야경 투어', icon: '🌃' },
-                        { time: '저녁', desc: '🌟 **[특전]** 여행의 피로를 덜어주는 **전신마사지 1시간** 포함', icon: '💆' },
-                        { time: '밤', desc: '공항으로 이동 후 국제선 탑승수속', icon: '✈️' },
-                        { time: '식사', desc: 'B: 호텔식, L: 현지식, D: 현지식', icon: '🍴' },
+                        { time: '오전', desc: '✨ [특전] 아룡만 열대천당 산림공원 (유리잔도)', icon: '🌲' },
+                        { time: '오후', desc: '천애해각 (하늘의 끝과 바다의 모퉁이) - 전동카', icon: '🌊' },
+                        { time: '저녁', desc: '푸싱제(보행가) 시내 관광 및 야경', icon: '🌃' },
+                        { time: '저녁', desc: '✨ [특전] 여행의 피로를 푸는 전신마사지 (1시간)', icon: '💆' },
+                        { time: '22:00', desc: '공항으로 이동', icon: '🚌' }
                     ]
                 },
+                // 4박 6일용 Day 4
                 day4_6day: {
-                    title: 'DAY 4: 리조트 전일 자유 휴식 (4박 6일 전용)',
+                    title: 'DAY 4: 전일 자유 일정 (4박 6일)',
+                    note: '💧 오늘은 가이드 간섭 없이 리조트를 온전히 즐기는 날입니다.',
                     items: [
-                        { time: '전일', desc: '리조트 뷔페조식 후 **전일 맹그로브 리조트 부대시설 이용** (자유시간) ', icon: '🥐' },
-                        { time: '전일', desc: '🌟 맹그로브 **아마존 정글 워터파크** 등 무료 이용 ', icon: '💧' },
-                        { time: '식사', desc: 'B: 호텔식, L: 자유식(불포함), D: 자유식(불포함) ', icon: '🍴' },
+                        { time: '전일', desc: '맹글로브 리조트 내 전일 자유시간', icon: '🏖️' },
+                        { time: 'Tip', desc: '투숙객 무료 워터파크(아마존 정글) 이용 추천', icon: '💡' },
+                        { time: '식사', desc: '조: 호텔식 / 중: 불포함 / 석: 불포함', icon: '🍴' }
                     ]
                 },
-                day5_end_5day: {
-                     title: 'DAY 5: 하이난 출발 및 청주 도착 (3박 5일 마무리)',
+                // 4박 6일용 Day 5 (관광 및 귀국)
+                day5_6day: {
+                    title: 'DAY 5: 핵심 관광 후 귀국 (4박 6일)',
                     items: [
-                        { time: '01:30', desc: '하이난(삼아) 출발 / 청주 향발 (TW634)', icon: '✈️' },
-                        { time: '06:30', desc: '청주공항 도착', icon: '🛬' },
+                         { time: '오전', desc: '✨ [특전] 아룡만 열대천당 산림공원 (유리잔도)', icon: '🌲' },
+                        { time: '오후', desc: '천애해각 (하늘의 끝과 바다의 모퉁이) - 전동카', icon: '🌊' },
+                        { time: '저녁', desc: '푸싱제(보행가) 시내 관광 및 야경', icon: '🌃' },
+                        { time: '저녁', desc: '✨ [특전] 여행의 피로를 푸는 전신마사지 (1시간)', icon: '💆' },
+                        { time: '22:00', desc: '공항으로 이동', icon: '🚌' }
                     ]
                 },
-                 day5_end_6day: {
-                     title: 'DAY 5: 하이난 명소 및 귀국 준비 (4박 6일 마무리)',
+                // 귀국 공통
+                return_home: {
+                    title: '도착: 편안한 귀국',
                     items: [
-                        { time: '오전', desc: '리조트 뷔페조식 후', icon: '🥐' },
-                        { time: '오전', desc: '🌟 **[특전]** 최고의 전망대 **아룡만열대천당** (유리잔도 포함)', icon: '🏞️' },
-                        { time: '오후', desc: '아름다운 절경의 **천애해각** (전동카 포함)', icon: '🌊' },
-                        { time: '저녁', desc: '싼야 시내 최대 번화가 **푸싱제** 및 야경 투어', icon: '🌃' },
-                        { time: '저녁', desc: '🌟 **[특전]** 여행의 피로를 덜어주는 **전신마사지 1시간** 포함', icon: '💆' },
-                        { time: '밤', desc: '공항으로 이동 후 국제선 탑승수속', icon: '✈️' },
-                        { time: '식사', desc: 'B: 호텔식, L: 현지식, D: 현지식', icon: '🍴' },
-                    ]
-                },
-                day6_end_6day: {
-                     title: 'DAY 6: 하이난 출발 및 청주 도착 (4박 6일 마무리)',
-                    items: [
-                        { time: '01:30', desc: '하이난(삼아) 출발 / 청주 향발 (TW634)', icon: '✈️' },
-                        { time: '06:30', desc: '청주공항 도착', icon: '🛬' },
+                        { time: '01:30', desc: '삼아 출발 (TW634)', icon: '🛫' },
+                        { time: '06:30', desc: '청주공항 도착 및 해산', icon: '🏠' }
                     ]
                 }
             };
-            
-            // 현재 선택된 패키지: 초기값은 5일
-            let currentPackage = '5day'; 
-            
+
+            let currentPackage = '5day';
             const tabsContainer = document.getElementById('tabs-content');
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const packageTabButtons = document.querySelectorAll('.package-tab-btn');
+            const packageBtns = document.querySelectorAll('.package-tab-btn');
+            const dayBtns = document.querySelectorAll('.tab-btn');
 
-            function updatePackage(newPackage) {
-                currentPackage = newPackage;
-                // 가격 탭 업데이트
-                document.querySelectorAll('.price-table').forEach(table => table.classList.add('hidden'));
-                document.getElementById(`price-${currentPackage}`).classList.remove('hidden');
-                
-                // 패키지 버튼 상태 업데이트
-                packageTabButtons.forEach(btn => {
-                    if (btn.dataset.package === newPackage) {
-                        btn.classList.add('active');
-                        btn.classList.remove('text-gray-700', 'border-gray-300');
-                        btn.classList.add('bg-emerald-700', 'text-white', 'border-emerald-700');
-                    } else {
-                        btn.classList.remove('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
-                        btn.classList.add('text-gray-700', 'border-gray-300');
-                    }
-                });
-                
-                // 상세 일정 탭 콘텐츠 강제 리로드 (현재 활성화된 탭으로)
-                const activeTab = document.querySelector('.tab-btn.active');
-                if (activeTab) {
-                    renderTabContent(activeTab.dataset.tab);
-                } else {
-                    renderTabContent('day1'); // 기본값으로 DAY 1 렌더링
-                }
-            }
-
-            function renderTabContent(day) {
-                let data;
-                let insight = null;
-                
-                if (day === 'day4') {
-                    data = currentPackage === '5day' ? scheduleData_5day.day4_5day : scheduleData_5day.day4_6day;
-                    insight = {
-                        title: `CLASS 상품의 Day 4 전략 (${currentPackage === '5day' ? '명소 집중' : '리조트 휴식'})`,
-                        text: currentPackage === '5day' 
-                            ? '3박 5일 상품은 Day 4에 아룡만, 천애해각 등 **핵심 명소를 압축적으로** 경험하고 저녁에 공항으로 이동하여 시간을 효율적으로 활용합니다.' 
-                            : '4박 6일 상품은 Day 4를 **맹그로브 리조트의 전일 자유시간**으로 할애하여, 워터파크 등 최고급 부대시설을 여유롭게 즐기는 **진정한 휴양**에 초점을 맞춥니다.'
-                    };
-                } else if (day === 'day5_end') {
-                     data = currentPackage === '5day' ? scheduleData_5day.day4_5day : scheduleData_5day.day5_end_6day; // 5일차 일정은 6일 상품만 표시
-                    const data_end = currentPackage === '5day' ? scheduleData_5day.day5_end_5day : scheduleData_5day.day6_end_6day; // 귀국 일정
+            // 패키지 변경 (3박5일 vs 4박6일)
+            packageBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentPackage = btn.dataset.package;
                     
-                    let content = `<h3 class="text-2xl font-bold mb-6">${data_end.title}</h3><ul class="space-y-4">`;
-                    if (currentPackage === '6day') {
-                         content += `<h4 class="text-xl font-bold text-gray-800 border-b-2 pb-2 mb-4">Day 5 일정 (4박 6일)</h4>`;
-                         data.items.forEach(item => { // Day 5 일정 (4박 6일의 마지막 관광일)
-                             content += `<li class="flex items-start"><span class="text-2xl mr-4">${item.icon}</span><div><p class="font-bold">${item.time}</p><p class="text-gray-600">${item.desc}</p></div></li>`;
-                         });
-                         content += `<h4 class="text-xl font-bold text-gray-800 border-b-2 pb-2 mt-8 mb-4">Day 6 일정 (4박 6일 귀국)</h4>`;
-                    } else {
-                         content += `<h4 class="text-xl font-bold text-gray-800 border-b-2 pb-2 mb-4">Day 5 일정 (3박 5일 귀국)</h4>`;
-                    }
-                    
-                    data_end.items.forEach(item => { // 귀국일정
-                        content += `<li class="flex items-start"><span class="text-2xl mr-4">${item.icon}</span><div><p class="font-bold">${item.time}</p><p class="text-gray-600">${item.desc}</p></div></li>`;
+                    // 스타일 업데이트
+                    packageBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
+                        b.classList.add('bg-white', 'text-gray-500', 'border-transparent');
                     });
-                    
-                    tabsContainer.innerHTML = content + '</ul>';
-                    return;
+                    btn.classList.add('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
+                    btn.classList.remove('bg-white', 'text-gray-500', 'border-transparent');
 
-                } else if (scheduleData_5day[day]) {
-                    data = scheduleData_5day[day];
+                    // 가격표 토글
+                    document.getElementById('price-5day').classList.toggle('hidden', currentPackage !== '5day');
+                    document.getElementById('price-6day').classList.toggle('hidden', currentPackage !== '6day');
+
+                    // 일정표 리셋
+                    document.querySelector('.tab-btn[data-tab="day1"]').click();
+                });
+            });
+
+            // 일차 변경
+            dayBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    dayBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+                        b.classList.add('text-gray-500', 'border-gray-200');
+                    });
+                    btn.classList.add('active', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+                    btn.classList.remove('text-gray-500', 'border-gray-200');
+
+                    renderSchedule(btn.dataset.tab);
+                });
+            });
+
+            function renderSchedule(day) {
+                let data = null;
+                let returnData = null;
+
+                // 데이터 매핑 로직
+                if (day === 'day1') data = scheduleData.day1;
+                else if (day === 'day2') data = scheduleData.day2;
+                else if (day === 'day3') data = scheduleData.day3;
+                else if (day === 'day4') {
+                    data = currentPackage === '5day' ? scheduleData.day4_5day : scheduleData.day4_6day;
+                }
+                else if (day === 'day5_end') {
+                    if (currentPackage === '5day') {
+                         data = scheduleData.return_home; // 5일 상품은 바로 귀국 정보
+                    } else {
+                         data = scheduleData.day5_6day; // 6일 상품은 5일차 관광 정보
+                         returnData = scheduleData.return_home; // 그리고 귀국 정보 추가
+                    }
                 }
 
                 if (!data) return;
 
-                let content = `<h3 class="text-2xl font-bold mb-6">${data.title}</h3><ul class="space-y-4">`;
-                data.items.forEach(item => {
-                    content += `<li class="flex items-start"><span class="text-2xl mr-4">${item.icon}</span><div><p class="font-bold">${item.time}</p><p class="text-gray-600">${item.desc}</p></div></li>`;
-                });
-                content += '</ul>';
+                let html = `
+                    <div class="animate-fade-in">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-2">${data.title}</h3>
+                        ${data.note ? `<p class="mb-6 text-sm text-emerald-600 bg-emerald-50 p-2 rounded-lg inline-block font-medium">${data.note}</p>` : '<div class="mb-6"></div>'}
+                        <div class="space-y-0">
+                `;
 
-                if (insight) {
-                    content += `
-                        <div class="mt-8 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-md shadow-sm">
-                            <h4 class="text-lg font-bold text-emerald-800 mb-2">${insight.title}</h4>
-                            <p class="text-gray-700">${insight.text}</p>
+                data.items.forEach(item => {
+                    html += `
+                        <div class="timeline-item">
+                            <div class="timeline-icon-wrapper shadow-sm text-sm">
+                                ${item.icon}
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
+                                <span class="text-emerald-600 font-bold text-sm block mb-1">${item.time}</span>
+                                <span class="text-slate-700 font-medium">${item.desc}</span>
+                            </div>
                         </div>
                     `;
+                });
+
+                // 4박 6일의 경우 마지막 날에 귀국 일정 추가 표시
+                if (returnData) {
+                    html += `
+                        <div class="mt-8 pt-8 border-t border-dashed border-gray-200">
+                             <h3 class="text-xl font-bold text-slate-700 mb-6">🏁 ${returnData.title} (Day 6)</h3>
+                    `;
+                    returnData.items.forEach(item => {
+                         html += `
+                            <div class="timeline-item">
+                                <div class="timeline-icon-wrapper shadow-sm text-sm bg-slate-100 border-slate-300">
+                                    ${item.icon}
+                                </div>
+                                <div class="bg-slate-100 p-4 rounded-xl border border-slate-200">
+                                    <span class="text-slate-600 font-bold text-sm block mb-1">${item.time}</span>
+                                    <span class="text-slate-600 font-medium">${item.desc}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += `</div>`;
                 }
-                
-                tabsContainer.innerHTML = content;
+
+                html += `</div></div>`;
+                tabsContainer.innerHTML = html;
             }
 
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    renderTabContent(button.dataset.tab);
-                });
-            });
-            
-            packageTabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    updatePackage(button.dataset.package);
-                });
-            });
-
-            // 초기 렌더링 (5일 상품)
-            updatePackage('5day');
-            renderTabContent('day1');
+            // 초기 실행
+            renderSchedule('day1');
         });
     </script>
 </body>
