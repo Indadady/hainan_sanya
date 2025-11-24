@@ -3,25 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TW 청주-하이난 CLASS 클라스 (고급) - 투어메이커</title>
+    <title>TW 청주-하이난 투어메이커 기획전</title>
     
-    <!-- Open Graph (카카오톡 공유 미리보기) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="🌴 청주 출발 하이난 CLASS 프리미엄 패키지">
-    <meta property="og:description" content="노쇼핑/노팁/노옵션! 5성급 맹글로브 리조트와 티웨이 전세기로 떠나는 3無 프리미엄 여행.">
+    <meta property="og:title" content="🌴 청주 출발 하이난 여행 (프리미엄/가성비/에어텔)">
+    <meta property="og:description" content="5성급 럭셔리부터 가성비 특가까지! 내 취향에 맞는 하이난 여행을 찾아보세요.">
     <meta property="og:image" content="https://content.r9cdn.net/rimg/dimg/9a/22/760d9ab8-city-48344-16d88c1b6ab.jpg?crop=true&height=800&width=1200">
-    <meta property="og:url" content="https://indadady.github.io/hainan_sanya">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
-    <!-- 아이콘 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #334155; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #334155; word-break: keep-all; }
         
         .hero-bg-image {
             background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('https://content.r9cdn.net/rimg/dimg/9a/22/760d9ab8-city-48344-16d88c1b6ab.jpg?crop=true&height=800&width=1200'); 
@@ -52,6 +47,9 @@
         .animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+        .bounce-arrow { animation: bounce 2s infinite; }
 
         html { scroll-padding-top: 5rem; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -60,6 +58,13 @@
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .faq-input:checked ~ .faq-content { max-height: 200px; }
         .faq-input:checked ~ label .arrow { transform: rotate(180deg); }
+        
+        .sticky-th { position: sticky; top: 0; z-index: 10; }
+
+        /* 모달 스타일 */
+        #itineraryModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #itineraryModal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #itineraryModal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
     </style>
 </head>
 <body class="antialiased selection:bg-emerald-200 selection:text-emerald-900">
@@ -73,23 +78,21 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-6">
-                        <a href="#class" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">CLASS 하이라이트</a>
-                        <a href="#price" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">상품가</a>
-                        <a href="#details" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">일정표</a>
+                        <a href="#home" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">PREMIUM</a>
+                        <a href="#price" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">일정/가격</a>
                         <a href="#airline_resort" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">항공/숙소</a>
-                        <a href="#info" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">여행 정보</a>
-                        <a href="#faq" class="nav-link px-2 py-2 text-sm font-semibold text-gray-600 hover:text-emerald-600">FAQ</a>
+                        <a href="#alternatives" class="px-4 py-2 text-sm font-bold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 shadow-md transition">실속/에어텔 보기</a>
                     </div>
-                </div>
-                <!-- 모바일 메뉴 버튼 (간소화: 예약버튼 제거) -->
-                <div class="md:hidden">
-                    <!-- 버튼 제거 -->
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
+        <!-- =========================================================== -->
+        <!-- PART 1. 프리미엄 상품 (기존 내용 유지) -->
+        <!-- =========================================================== -->
+        
         <!-- Hero Section -->
         <section id="home" class="hero-bg-image text-white text-center flex items-center justify-center min-h-[90vh] -mt-16">
             <div class="container mx-auto px-4 animate-fade-in-up">
@@ -105,8 +108,12 @@
                 </p>
                 <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 max-w-4xl mx-auto">
                      <a href="#details" class="bg-white text-emerald-800 px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-emerald-50 transition transform hover:-translate-y-1">
-                        📅 상세 일정 보기
+                        📅 프리미엄 일정 보기
                     </a>
+                </div>
+                <div class="mt-12 opacity-80">
+                     <p class="text-xs mb-2 font-light">Scroll Down</p>
+                     <i class="fa-solid fa-chevron-down bounce-arrow text-2xl"></i>
                 </div>
             </div>
         </section>
@@ -138,10 +145,10 @@
             </div>
         </section>
 
-        <!-- Price -->
+        <!-- Price & Conditions -->
         <section id="price" class="py-20 bg-slate-100">
             <div class="container mx-auto px-4">
-                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">📅 출발일 및 상품가</h2>
+                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">📅 출발일 및 상품가 (Premium)</h2>
                  <div class="max-w-4xl mx-auto">
                     <div class="flex justify-center space-x-2 md:space-x-4 mb-8">
                         <button class="package-tab-btn active w-1/2 md:w-auto text-lg font-bold py-4 px-8 rounded-xl bg-emerald-700 text-white shadow-lg border-2 border-emerald-700" data-package="5day">
@@ -151,7 +158,7 @@
                             4박 6일 <span class="block text-xs font-normal opacity-80 mt-1">(매주 월요일 출발)</span>
                         </button>
                     </div>
-                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 mb-8">
                          <div id="price-5day" class="price-table p-4 md:p-8">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left border-collapse">
@@ -172,11 +179,6 @@
                                             <td class="py-4 px-4 font-bold">1월~2월</td>
                                             <td class="py-4 px-4">매주 금</td>
                                             <td class="py-4 px-4 text-right text-lg font-bold text-emerald-600">1,290,000원</td>
-                                        </tr>
-                                        <tr class="bg-red-50/50">
-                                            <td class="py-4 px-4 font-bold text-red-600">구정연휴</td>
-                                            <td class="py-4 px-4 text-red-600">2/20, 2/27</td>
-                                            <td class="py-4 px-4 text-right text-lg font-bold text-red-600">1,590,000원~</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -203,138 +205,293 @@
                                             <td class="py-4 px-4">매주 월</td>
                                             <td class="py-4 px-4 text-right text-lg font-bold text-emerald-600">1,350,000원</td>
                                         </tr>
-                                        <tr class="bg-red-50/50">
-                                            <td class="py-4 px-4 font-bold text-red-600">구정연휴</td>
-                                            <td class="py-4 px-4 text-red-600">2/16, 2/23</td>
-                                            <td class="py-4 px-4 text-right text-lg font-bold text-red-600">1,650,000원~</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                          </div>
                     </div>
-                    <div class="mt-8 p-6 bg-emerald-50 border-l-4 border-emerald-500 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-emerald-800 mb-4">📢 중요 예약 조건</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-700">
-                            <li><strong class="text-emerald-700">전세편 이용 상품</strong>으로 예약 시 <strong class="text-emerald-700">계약금 20만 원/인</strong>이 필수입니다.</li>
-                            <li><strong class="text-slate-800">포함:</strong> 항공, 텍스, 보험, 호텔(2인1실), 전용버스, 입장료, 식사, 팁 모두 포함.</li>
-                            <li><strong class="text-slate-800">불포함:</strong> 싱글차지($180 또는 $240), 개인 경비.</li>
+
+                    <!-- 중요 예약 조건 -->
+                    <div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-emerald-800 mb-3 flex items-center"><i class="fa-solid fa-circle-exclamation mr-2"></i>📢 중요 예약 조건</h3>
+                        <ul class="space-y-2 text-sm md:text-base text-slate-700">
+                            <li><strong class="text-emerald-700">계약금:</strong> 전세편 이용 상품으로 예약 시 <span class="bg-yellow-200 px-1">20만 원/인</span> 필수입니다.</li>
+                            <li><strong>포함사항:</strong> 항공, 텍스, 보험, 호텔(2인1실), 전용버스, 입장료, 식사, 팁 <span class="font-bold text-emerald-600">모두 포함</span></li>
+                            <li><strong>불포함사항:</strong> 싱글차지($180 또는 $240), 개인 경비</li>
                         </ul>
                     </div>
                  </div>
             </div>
         </section>
 
-        <!-- Itinerary -->
+        <!-- Itinerary (Premium) -->
         <section id="details" class="py-20 bg-white">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">🌴 상세 일정표</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">🌴 상세 일정표 (Premium)</h2>
+                
+                <!-- 이미지 갤러리 -->
                 <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 mb-12">
-                    <div class="group relative overflow-hidden rounded-2xl shadow-lg h-48">
-                        <img src="https://p8.itc.cn/images01/20210301/3a36b352ec3a4b43a7af73461c079603.jpeg" alt="일월만 서핑" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-white text-xl font-bold">일월만 비치 & 서핑</h3>
-                            <p class="text-gray-200 text-sm">중국의 서핑 성지, 트렌디한 해변 문화</p>
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg h-64">
+                        <img src="https://p8.itc.cn/images01/20210301/3a36b352ec3a4b43a7af73461c079603.jpeg" alt="일월만 비치 서핑" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-white text-2xl font-bold mb-1">일월만 비치 & 서핑 🏄</h3>
+                            <p class="text-gray-200 text-sm font-medium">트렌디한 핫플레이스! 서핑과 자유로운 비치 라이프</p>
                         </div>
                     </div>
-                     <div class="group relative overflow-hidden rounded-2xl shadow-lg h-48">
-                        <img src="https://res.klook.com/images/fl_lossy.progressive%2Cq_65/c_fill%2Cw_1295%2Ch_717/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/rari3xzhksyvmf9kmhfd/LuhuitouScenicArea.jpg" alt="녹회두 야경" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-                            <h3 class="text-white text-xl font-bold">녹회두 야경투어</h3>
-                            <p class="text-gray-200 text-sm">싼야 시내를 한눈에 담는 낭만</p>
+                    <div class="group relative overflow-hidden rounded-2xl shadow-lg h-64">
+                        <img src="https://res.klook.com/images/fl_lossy.progressive%2Cq_65/c_fill%2Cw_1295%2Ch_717/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/rari3xzhksyvmf9kmhfd/LuhuitouScenicArea.jpg" alt="녹회두 야경투어" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                            <h3 class="text-white text-2xl font-bold mb-1">녹회두 야경투어 🌃</h3>
+                            <p class="text-gray-200 text-sm font-medium">낭만적인 싼야 시내를 한눈에 내려다보는 파노라마 뷰</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- 탭 및 타임라인 컨테이너 -->
                 <div class="max-w-4xl mx-auto">
                     <div class="flex overflow-x-auto pb-4 mb-6 gap-2 no-scrollbar" id="day-tabs-container">
-                        <button class="tab-btn active shrink-0 px-6 py-2 rounded-full border border-emerald-200 font-bold bg-emerald-50 text-emerald-700" data-tab="day1">1일차</button>
-                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day2">2일차</button>
-                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day3">3일차</button>
-                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day4">4일차</button>
-                        <button class="tab-btn shrink-0 px-6 py-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50" data-tab="day5_end">마무리</button>
+                        <!-- JS generated tabs -->
                     </div>
-                    <div id="tabs-content" class="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm min-h-[400px]"></div>
+                    <div id="tabs-content" class="bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-sm min-h-[400px]">
+                        <!-- JS generated content -->
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Airline & Resort (순서 변경: 항공 -> 숙소) -->
+        <!-- Airline & Resort -->
         <section id="airline_resort" class="py-20 bg-slate-900 text-white">
             <div class="container mx-auto px-4">
                 <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
                     
-                    <!-- 1. Airline Info (항공 정보 먼저) -->
+                    <!-- 1. Airline Info -->
                     <div>
                          <div class="flex items-center mb-6">
                             <span class="bg-red-500 text-xs font-bold px-2 py-1 rounded mr-3">전세기</span>
                             <h2 class="text-3xl font-bold">티웨이 항공 (TW)</h2>
                         </div>
-                        <div class="bg-white/10 rounded-xl p-6">
+                        <div class="bg-white/10 rounded-xl p-6 mb-6">
                             <div class="flex justify-between items-center mb-6">
                                 <div class="text-center"><p class="text-sm text-slate-400">청주</p><p class="text-2xl font-bold">20:40</p></div>
                                 <div class="flex flex-col items-center text-slate-400"><span>TW633</span><hr class="w-12 border-slate-600 my-2"></div>
                                 <div class="text-center"><p class="text-sm text-slate-400">삼아</p><p class="text-2xl font-bold">00:30<small class="text-sm">(+1)</small></p></div>
                             </div>
-                            <div class="flex justify-between items-center mb-6">
+                            <div class="flex justify-between items-center">
                                 <div class="text-center"><p class="text-sm text-slate-400">삼아</p><p class="text-2xl font-bold">01:30</p></div>
                                 <div class="flex flex-col items-center text-slate-400"><span>TW634</span><hr class="w-12 border-slate-600 my-2"></div>
                                 <div class="text-center"><p class="text-sm text-slate-400">청주</p><p class="text-2xl font-bold">06:30</p></div>
                             </div>
-                            <h4 class="text-lg font-bold text-white mb-3">🚨 LCC 이용 시 필수 확인 사항</h4>
-                            <ul class="text-sm text-slate-300 space-y-2">
-                                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span>위탁 수하물 20KG / 기내 반입 10KG 허용</li>
-                                <li class="flex items-start"><span class="text-red-400 mr-2">✓</span><strong class="text-white">기내식 미제공</strong> (사전 주문 또는 유료)</li>
-                            </ul>
+                        </div>
+                        <!-- LCC 필수 확인 사항 -->
+                        <div class="bg-red-900/30 border border-red-800 rounded-xl p-5">
+                             <h4 class="text-lg font-bold text-red-400 mb-3 flex items-center"><i class="fa-solid fa-triangle-exclamation mr-2"></i>🚨 LCC 이용 시 필수 확인 사항</h4>
+                             <ul class="space-y-2 text-sm text-gray-300">
+                                 <li class="flex items-start"><span class="text-red-400 mr-2">✓</span> 위탁 수하물 20KG / 기내 반입 10KG 허용</li>
+                                 <li class="flex items-start"><span class="text-red-400 mr-2">✓</span> <strong class="text-white">기내식 미제공</strong> (사전 주문 또는 유료)</li>
+                             </ul>
                         </div>
                     </div>
 
-                    <!-- 2. Resort Info (숙소 정보 나중 + 지도 추가) -->
+                    <!-- 2. Resort Info -->
                     <div>
                         <div class="flex items-center mb-6">
                             <span class="bg-emerald-500 text-xs font-bold px-2 py-1 rounded mr-3">5성급</span>
                             <h2 class="text-3xl font-bold">맹글로브 리조트</h2>
                         </div>
-                        <div class="space-y-4 text-slate-300 leading-relaxed mb-8">
-                            <h4 class="text-lg font-bold text-white mt-2 mb-2">주요 특장점</h4>
-                            <ul class="list-disc list-inside space-y-1">
-                                <li><strong>가족 친화 시설:</strong> 약 33,000㎡ 규모의 아마존 정글 워터파크 보유</li>
-                                <li><strong>원스톱 라이프스타일:</strong> Lifestyle Mall, 아울렛, 영화관, Food Street</li>
-                                <li><strong>입점 브랜드:</strong> 스타벅스, KFC, 로손, H&M, 나이키 등</li>
+                        
+                        <!-- 리조트 이미지 -->
+                        <div class="rounded-xl overflow-hidden mb-6 shadow-lg">
+                            <img src="https://q-xx.bstatic.com/xdata/images/hotel/max500/138009009.jpg?k=106260f15a599621e7664b2e725adfe9e856d266799082bca2c240cfed12a807&o=" alt="맹글로브 리조트" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                        </div>
+
+                        <!-- 주요 특장점 -->
+                        <div class="space-y-4 text-slate-300 leading-relaxed mb-6">
+                            <h4 class="text-lg font-bold text-white border-b border-slate-700 pb-2">주요 특장점</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong class="text-emerald-400">가족 친화 시설:</strong> 약 33,000㎡ 규모의 아마존 정글 워터파크 보유</li>
+                                <li><strong class="text-emerald-400">원스톱 라이프스타일:</strong> Lifestyle Mall, 아울렛, 영화관, Food Street</li>
+                                <li><strong class="text-emerald-400">입점 브랜드:</strong> 스타벅스, KFC, 로손, H&M, 나이키 등</li>
                             </ul>
-                            <p><span class="text-emerald-400">※ 4박 6일 상품 Day 4 전일, 워터파크 등 부대시설 무료 이용</span></p>
+                            <p class="text-sm bg-emerald-900/50 p-3 rounded text-emerald-200 mt-2">
+                                <i class="fa-solid fa-star mr-1"></i> ※ 4박 6일 상품 <strong>Day 4 전일</strong>, 워터파크 등 부대시설 무료 이용
+                            </p>
                         </div>
 
-                        <!-- 이미지 그리드 -->
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/175192257.jpg?k=fac02f3a6ab58e84118eb5ae00a021278a74aa1e0182045fd0647a6e6301f4da&o=" alt="워터파크" class="rounded-lg h-32 w-full object-cover hover:opacity-90 transition">
-                            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/186504366.jpg?k=a02609da17ba2f407f2dec18c8b8ebb94da2371f53f11abd35946e95711e0134&o=" alt="객실" class="rounded-lg h-32 w-full object-cover hover:opacity-90 transition">
-                        </div>
-
-                        <!-- 지도 정보 추가 -->
-                        <div class="bg-slate-800 rounded-lg p-4">
-                            <h4 class="text-sm font-bold text-white mb-2 flex items-center"><i class="fa-solid fa-map-location-dot mr-2"></i>위치 정보 (Location)</h4>
-                            <div class="relative w-full h-40 rounded-lg overflow-hidden group">
-                                <!-- 지도 이미지 (클릭 시 구글 맵 이동) -->
-                                <a href="https://www.google.com/maps/search/Mangrove+Tree+Resort+World+Sanya+Bay/@18.286127,109.502693,14z" target="_blank">
-                                    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/186503702.jpg?k=444a5cc5807a69b01dfb32c1cbcfc2bb5e9821f5dc7ddde59f4a94ee4677493e&o="
-                                         onerror="this.src='https://maps.googleapis.com/maps/api/staticmap?center=18.286127,109.502693&zoom=14&size=600x300&maptype=roadmap&markers=color:red%7C18.286127,109.502693&key=YOUR_API_KEY'; this.onerror=null; this.parentNode.innerHTML='<div class=\'w-full h-full bg-slate-700 flex items-center justify-center text-slate-400\'><i class=\'fa-solid fa-map text-2xl\'></i></div>'"
-                                         class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="맹글로브 리조트 전경">
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <span class="bg-white/90 text-slate-900 text-xs font-bold px-3 py-2 rounded-full shadow-lg group-hover:scale-105 transition-transform">
-                                            <i class="fa-brands fa-google mr-1"></i> 구글 지도 보기
-                                        </span>
-                                    </div>
-                                </a>
+                        <!-- 지도 -->
+                        <div class="bg-slate-800 rounded-lg p-4 group hover:bg-slate-700 transition cursor-pointer" onclick="window.open('https://www.google.com/maps/search/Mangrove+Tree+Resort+World+Sanya+Bay/@18.286127,109.502693,14z', '_blank')">
+                            <h4 class="text-sm font-bold text-white mb-2 flex items-center justify-between">
+                                <span><i class="fa-solid fa-map-location-dot mr-2"></i>위치 정보</span>
+                                <span class="text-xs text-emerald-400 font-normal group-hover:underline">지도 보기 <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i></span>
+                            </h4>
+                             <div class="relative w-full h-32 rounded-lg overflow-hidden bg-slate-700 flex items-center justify-center text-slate-500 group-hover:opacity-80">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-map-marked-alt text-4xl mb-2 text-slate-400"></i>
+                                    <p class="text-xs">China, Hainan, Sanya, Fenghuang Road No.155</p>
+                                    <p class="text-xs text-emerald-500 mt-1">클릭하여 구글맵 열기</p>
+                                </div>
                             </div>
-                            <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-location-dot mr-1"></i>주소: China, Hainan, Sanya, Fenghuang Road No.155</p>
                         </div>
                     </div>
-
+                </div>
+                <div class="mt-12 p-6 bg-slate-800/50 rounded-xl text-center">
+                    <p class="text-slate-400 text-sm">▲ 여기까지가 <strong>[CLASS 프리미엄]</strong> 상품 소개입니다.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Info & FAQ Section -->
+
+        <!-- =========================================================== -->
+        <!-- [PART 2] 대안 상품 섹션 (가성비/에어텔) -->
+        <!-- =========================================================== -->
+        
+        <!-- 전환 배너 -->
+        <section class="py-16 bg-gradient-to-b from-slate-100 to-white border-t border-slate-200 relative overflow-hidden">
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4 animate-bounce">Alternative Choice</span>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-6 leading-tight">
+                    🤔 잠깐! 혹시 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-600">가격이나 일정</span>이 부담되시나요?
+                </h3>
+                <p class="text-slate-600 text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+                    최고급 상품도 좋지만, 때로는 <strong>가성비</strong>와 <strong>자유로움</strong>이 더 중요할 때가 있죠.<br>
+                    고객님을 위해 준비한 <strong>검증된 베스트셀러 2가지</strong>를 아래에서 확인해보세요.
+                </p>
+                <i class="fa-solid fa-arrow-down text-slate-300 text-2xl bounce-arrow"></i>
+            </div>
+        </section>
+
+        <!-- 대안 상품 비교 및 카드 -->
+        <section id="alternatives" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                
+                <!-- 1. 3단 비교 테이블 -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-16 border border-slate-200">
+                    <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-scale-balanced mr-2"></i>한눈에 비교하기</h3>
+                        <span class="text-xs text-slate-400">*12월 출발 기준</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-center min-w-[700px]">
+                            <thead>
+                                <tr class="text-sm text-slate-500 bg-slate-50 sticky-th">
+                                    <th class="py-4 px-4 font-bold w-1/4">구분</th>
+                                    <th class="py-4 px-4 bg-slate-800 text-emerald-400 w-1/4 border-r border-slate-700 relative">
+                                        🏆 PREMIUM
+                                        <span class="absolute top-2 right-2 text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded">VIEWING</span>
+                                    </th>
+                                    <th class="py-4 px-4 bg-blue-50 text-blue-700 w-1/4 border-r border-blue-100">
+                                        🏖️ 에어텔 (자유)
+                                    </th>
+                                    <th class="py-4 px-4 bg-orange-50 text-orange-700 w-1/4">
+                                        💰 가성비 (실속)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm md:text-base">
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="py-5 px-4 font-bold text-slate-600">시작 가격</td>
+                                    <td class="py-5 px-4 font-bold text-slate-800 bg-slate-50/50">1,190,000원~</td>
+                                    <td class="py-5 px-4 font-bold text-blue-600">850,000원~</td>
+                                    <td class="py-5 px-4 font-bold text-red-600">650,000원~</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="py-5 px-4 font-bold text-slate-600">호텔</td>
+                                    <td class="py-5 px-4 text-slate-600 bg-slate-50/50">맹글로브 (최고급)</td>
+                                    <td class="py-5 px-4 text-slate-600">맹글로브 (코코넛타워)</td>
+                                    <td class="py-5 px-4 text-slate-600">피닉스 글로리아 (준5성)</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="py-5 px-4 font-bold text-slate-600">특징</td>
+                                    <td class="py-5 px-4 text-slate-600 bg-slate-50/50">3無 / 풀패키지</td>
+                                    <td class="py-5 px-4 text-slate-600">워터파크 / 100% 자유</td>
+                                    <td class="py-5 px-4 text-slate-600">핵심관광 / 알뜰쇼핑</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. 대안 상품 상세 카드 -->
+                <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    
+                    <!-- [상품 A] 맹글로브 에어텔 -->
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-blue-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                        <div class="h-56 bg-blue-600 relative overflow-hidden">
+                            <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/175192257.jpg?k=fac02f3a6ab58e84118eb5ae00a021278a74aa1e0182045fd0647a6e6301f4da&o=" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Mangrove Resort">
+                            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/70 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 text-white">
+                                <span class="bg-blue-500 text-xs font-bold px-2 py-1 rounded mb-2 inline-block">FAMILY BEST</span>
+                                <h3 class="text-2xl font-bold">맹글로브 에어텔 (자유)</h3>
+                            </div>
+                        </div>
+                        <div class="p-8 flex-grow">
+                            <p class="text-slate-500 text-sm mb-6">"아이들의 천국! 워터파크가 리조트 안에"</p>
+                            <div class="flex items-baseline mb-6 pb-6 border-b border-slate-100">
+                                <span class="text-3xl font-extrabold text-slate-800">850,000</span>
+                                <span class="text-lg text-slate-500 ml-1">원~</span>
+                            </div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-3"><i class="fa-solid fa-check"></i></span>
+                                    <span class="text-slate-600 text-sm"><strong>아마존 정글 워터파크</strong> 투숙객 무료</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-3"><i class="fa-solid fa-check"></i></span>
+                                    <span class="text-slate-600 text-sm">가이드 간섭 없는 <strong>100% 자유 일정</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-500 mr-3"><i class="fa-solid fa-check"></i></span>
+                                    <span class="text-slate-600 text-sm">공항↔리조트 <strong>미팅/샌딩 서비스</strong> 포함</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="openModal('airtel')" class="block w-full bg-blue-600 text-white text-center font-bold py-4 hover:bg-blue-700 transition">
+                            에어텔 일정 자세히 보기 <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- [상품 B] 가성비 실속 패키지 -->
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-orange-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                        <div class="h-56 bg-orange-500 relative overflow-hidden">
+                            <img src="https://res.klook.com/images/fl_lossy.progressive%2Cq_65/c_fill%2Cw_1295%2Ch_717/w_80%2Cx_15%2Cy_15%2Cg_south_west%2Cl_Klook_water_br_trans_yhcmh3/activities/rari3xzhksyvmf9kmhfd/LuhuitouScenicArea.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Sanya Tour">
+                            <div class="absolute inset-0 bg-gradient-to-t from-orange-900/70 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 text-white">
+                                <span class="bg-orange-500 text-xs font-bold px-2 py-1 rounded mb-2 inline-block">VALUE PICK</span>
+                                <h3 class="text-2xl font-bold">하이난 실속 패키지</h3>
+                            </div>
+                        </div>
+                        <div class="p-8 flex-grow">
+                            <p class="text-slate-500 text-sm mb-6">"가격은 가볍게, 여행은 꽉 채워서!"</p>
+                            <div class="flex items-baseline mb-6 pb-6 border-b border-slate-100">
+                                <span class="text-3xl font-extrabold text-red-600">650,000</span>
+                                <span class="text-lg text-slate-500 ml-1">원~</span>
+                            </div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-3"><i class="fa-solid fa-check"></i></span>
+                                    <span class="text-slate-600 text-sm">피닉스 글로리아/티벳 등 <strong>실속 호텔</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-3"><i class="fa-solid fa-check"></i></span>
+                                    <span class="text-slate-600 text-sm">남산문화원, 야경투어 등 <strong>필수 코스 포함</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-500 mr-3"><i class="fa-solid fa-check"></i></span>
+                                    <span class="text-slate-600 text-sm">전 일정 식사/차량/가이드 포함 (10인↑)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button onclick="openModal('budget')" class="block w-full bg-orange-500 text-white text-center font-bold py-4 hover:bg-orange-600 transition">
+                            실속 패키지 일정 자세히 보기 <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================== -->
+        <!-- [PART 3] 공통 정보 및 FAQ -->
+        <!-- =========================================================== -->
+
         <section id="info" class="py-20 bg-slate-50">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-800">📜 하이난 여행 정보 및 유의사항</h2>
@@ -367,9 +524,21 @@
             <div class="container mx-auto px-4 max-w-3xl">
                 <h2 class="text-3xl font-bold text-center mb-10 text-slate-800">🤔 자주 묻는 질문 (FAQ)</h2>
                 <div class="space-y-4">
+                    <!-- Q1 -->
                     <div class="border border-slate-200 rounded-lg overflow-hidden">
                         <input type="checkbox" id="faq1" class="faq-input hidden">
                         <label for="faq1" class="flex justify-between items-center p-5 cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
+                            <span class="font-bold text-slate-700">Q. 예약은 어떻게 진행되나요? (필독)</span>
+                            <span class="arrow transition-transform duration-300">▼</span>
+                        </label>
+                        <div class="faq-content bg-white text-slate-600 p-5 border-t border-slate-200">
+                            A. 하단의 전화 또는 카카오톡 상담을 통해 가능 여부를 확인하신 후, <strong class="text-emerald-600">여권 사본 제출</strong> 및 <strong class="text-emerald-600">예약금(1인 20만원)</strong>을 입금하시면 확정됩니다.
+                        </div>
+                    </div>
+                    <!-- Q2 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden">
+                        <input type="checkbox" id="faq2" class="faq-input hidden">
+                        <label for="faq2" class="flex justify-between items-center p-5 cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
                             <span class="font-bold text-slate-700">Q. 중국 비자가 필요한가요?</span>
                             <span class="arrow transition-transform duration-300">▼</span>
                         </label>
@@ -377,9 +546,10 @@
                             A. 아니요! 하이난은 한국 여권 소지자에 대해 **30일 무비자 입국**이 가능합니다. 별도의 비자 발급 없이 여권만 있으면 떠나실 수 있습니다.
                         </div>
                     </div>
+                    <!-- Q3 -->
                     <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <input type="checkbox" id="faq2" class="faq-input hidden">
-                        <label for="faq2" class="flex justify-between items-center p-5 cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
+                        <input type="checkbox" id="faq3" class="faq-input hidden">
+                        <label for="faq3" class="flex justify-between items-center p-5 cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
                             <span class="font-bold text-slate-700">Q. 현지에서 카카오톡이나 유튜브가 되나요?</span>
                             <span class="arrow transition-transform duration-300">▼</span>
                         </label>
@@ -387,23 +557,11 @@
                             A. 중국 본토 정책상 일부 차단될 수 있으나, **로밍**을 이용하시거나 사전에 **eSIM/유심**을 구매하시면 카카오톡과 유튜브 이용이 원활합니다.
                         </div>
                     </div>
-                    <div class="border border-slate-200 rounded-lg overflow-hidden">
-                        <input type="checkbox" id="faq3" class="faq-input hidden">
-                        <label for="faq3" class="flex justify-between items-center p-5 cursor-pointer bg-slate-50 hover:bg-slate-100 transition">
-                            <span class="font-bold text-slate-700">Q. 예약은 어떻게 진행되나요?</span>
-                            <span class="arrow transition-transform duration-300">▼</span>
-                        </label>
-                        <div class="faq-content bg-white text-slate-600 p-5 border-t border-slate-200">
-                            A. 하단의 전화 또는 카카오톡 상담을 통해 가능 여부를 확인하신 후, **여권 사본 제출** 및 **예약금(1인 20만원)**을 입금하시면 확정됩니다.
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
 
     </main>
-
-    <!-- Floating Action Button Removed -->
     
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
@@ -417,173 +575,308 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    <!-- Modal UI -->
+    <div id="itineraryModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <!-- Modal Header -->
+            <div id="modalHeader" class="p-6 bg-slate-800 text-white flex justify-between items-center sticky top-0 z-10">
+                <div>
+                    <h3 id="modalTitle" class="text-xl font-bold">일정표</h3>
+                    <p id="modalSubtitle" class="text-sm opacity-80 text-slate-300">세부 일정 확인</p>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition text-2xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
             
-            // 데이터 정의
-            const scheduleData = {
-                day1: {
-                    title: 'DAY 1: 설레는 출발',
-                    items: [
-                        { time: '18:00', desc: '청주공항 1층 티웨이 카운터 앞 집결', icon: '📍' },
-                        { time: '20:40', desc: '청주 출발 (TW633) - 약 4시간 50분 소요', icon: '✈️' },
-                        { time: '00:30', desc: '하이난 삼아 공항 도착 및 가이드 미팅', icon: '🛬' },
-                        { time: '숙박', desc: '맹글로브 리조트 체크인 및 휴식', icon: '🏨' },
-                    ]
-                },
-                day2: {
-                    title: 'DAY 2: 하이난 문화 탐방',
-                    items: [
-                        { time: '오전', desc: '리조트 조식 후 자유시간 및 부대시설 이용', icon: '☕' },
-                        { time: '오후', desc: '남산문화원 풍경구 (남산사/해수관음상) - 전동카 포함', icon: '🙏' },
-                        { time: '오후', desc: '현지 열대과일 시장 방문 및 시식', icon: '🥭' },
-                        { time: '저녁', desc: '✨ [특전] 별빛투어 유람선 탑승', icon: '🚢' },
-                        { time: '식사', desc: '조: 호텔식 / 중: 현지식 / 석: 샤브샤브', icon: '🍴' }
-                    ]
-                },
-                day3: {
-                    title: 'DAY 3: 로컬 체험과 액티비티',
-                    items: [
-                        { time: '오전', desc: '삥랑빌리지 (소수민족 민속촌) - 공연 관람', icon: '👺' },
-                        { time: '오후', desc: '원숭이섬 (케이블카 왕복 탑승)', icon: '🐒' },
-                        { time: '오후', desc: '일월만 비치 & Bar 스트리트 자유 산책', icon: '🏄' },
-                        { time: '저녁', desc: '✨ [특전] 삼겹살 무제한 특식', icon: '🍖' },
-                        { time: '식사', desc: '조: 호텔식 / 중: 현지식 / 석: 삼겹살', icon: '🍴' }
-                    ]
-                },
-                day4_5day: {
-                    title: 'DAY 4: 핵심 관광 후 귀국 (3박 5일)',
-                    note: '🚨 3박 5일 상품은 오늘 밤 공항으로 이동합니다.',
-                    items: [
-                        { time: '오전', desc: '✨ [특전] 아룡만 열대천당 산림공원 (유리잔도)', icon: '🌲' },
-                        { time: '오후', desc: '천애해각 (하늘의 끝과 바다의 모퉁이) - 전동카', icon: '🌊' },
-                        { time: '저녁', desc: '푸싱제(보행가) 시내 관광 및 야경', icon: '🌃' },
-                        { time: '저녁', desc: '✨ [특전] 여행의 피로를 푸는 전신마사지 (1시간)', icon: '💆' },
-                        { time: '22:00', desc: '공항으로 이동', icon: '🚌' }
-                    ]
-                },
-                day4_6day: {
-                    title: 'DAY 4: 전일 자유 일정 (4박 6일)',
-                    note: '💧 오늘은 가이드 간섭 없이 리조트를 온전히 즐기는 날입니다.',
-                    items: [
-                        { time: '전일', desc: '맹글로브 리조트 내 전일 자유시간', icon: '🏖️' },
-                        { time: 'Tip', desc: '투숙객 무료 워터파크(아마존 정글) 이용 추천', icon: '💡' },
-                        { time: '식사', desc: '조: 호텔식 / 중: 불포함 / 석: 불포함', icon: '🍴' }
-                    ]
-                },
-                day5_6day: {
-                    title: 'DAY 5: 핵심 관광 후 귀국 (4박 6일)',
-                    items: [
-                         { time: '오전', desc: '✨ [특전] 아룡만 열대천당 산림공원 (유리잔도)', icon: '🌲' },
-                        { time: '오후', desc: '천애해각 (하늘의 끝과 바다의 모퉁이) - 전동카', icon: '🌊' },
-                        { time: '저녁', desc: '푸싱제(보행가) 시내 관광 및 야경', icon: '🌃' },
-                        { time: '저녁', desc: '✨ [특전] 여행의 피로를 푸는 전신마사지 (1시간)', icon: '💆' },
-                        { time: '22:00', desc: '공항으로 이동', icon: '🚌' }
-                    ]
-                },
-                return_home: {
-                    title: '도착: 편안한 귀국',
-                    items: [
-                        { time: '01:30', desc: '삼아 출발 (TW634)', icon: '🛫' },
-                        { time: '06:30', desc: '청주공항 도착 및 해산', icon: '🏠' }
+            <!-- Duration Switcher -->
+            <div class="p-4 bg-slate-100 border-b border-slate-200 flex justify-center gap-2">
+                <button onclick="switchModalDuration('5day')" id="modalBtn5" class="px-6 py-2 rounded-full text-sm font-bold transition bg-slate-800 text-white">3박 5일</button>
+                <button onclick="switchModalDuration('6day')" id="modalBtn6" class="px-6 py-2 rounded-full text-sm font-bold transition bg-white text-slate-600 border border-slate-300 hover:bg-slate-50">4박 6일</button>
+            </div>
+
+            <!-- Modal Content -->
+            <div id="modalBody" class="p-6 overflow-y-auto flex-grow bg-white space-y-6">
+                <!-- Dynamic Content injected by JS -->
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-100 bg-slate-50 text-center text-xs text-slate-500">
+                ※ 상기 일정은 현지 사정 및 항공 스케줄에 따라 변경될 수 있습니다.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentModalType = ''; // 'airtel' or 'budget'
+        let currentModalDuration = '5day'; // '5day' or '6day'
+
+        // 데이터 정의 (프리미엄, 에어텔, 실속)
+        const allSchedules = {
+            premium: { /* 기존 코드에서 사용 중인 데이터 */ },
+            
+            // ================= 에어텔 데이터 =================
+            airtel: {
+                title: "맹글로브 리조트 에어텔",
+                subtitle: "자유여행 + 워터파크 무제한",
+                colorClass: "bg-blue-600",
+                schedules: {
+                    "5day": [
+                        { day: "1일차", items: [
+                            { time: "18:00", desc: "청주공항 집결 (1층)", icon: "📍" },
+                            { time: "20:40", desc: "청주 출발 (TW633)", icon: "✈️" },
+                            { time: "00:30", desc: "하이난 삼아 도착 / 입국수속", icon: "🛬" },
+                            { time: "숙박", desc: "가이드 미팅 후 맹글로브(코코넛) 이동 및 투숙", icon: "🏨" }
+                        ]},
+                        { day: "2일차", items: [
+                            { time: "오전", desc: "리조트 뷔페 조식", icon: "🍳" },
+                            { time: "전일", desc: "맹글로브 리조트 내 전일 자유시간", icon: "🏖️" },
+                            { time: "Tip", desc: "★아마존 정글 워터파크 등 부대시설 무료이용", icon: "🌊" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 불포함 / 석: 불포함", icon: "🍴" }
+                        ]},
+                        { day: "3일차", items: [
+                            { time: "오전", desc: "리조트 뷔페 조식", icon: "🍳" },
+                            { time: "전일", desc: "전일 자유시간 (외부 관광 또는 휴식)", icon: "🏖️" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 불포함 / 석: 불포함", icon: "🍴" }
+                        ]},
+                        { day: "4일차", items: [
+                            { time: "오전", desc: "리조트 뷔페 조식", icon: "🍳" },
+                            { time: "전일", desc: "자유시간 후 레이트 체크아웃(포함)", icon: "🧳" },
+                            { time: "22:00", desc: "공항으로 이동 후 출국 수속", icon: "🚌" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 불포함 / 석: 불포함", icon: "🍴" }
+                        ]},
+                        { day: "5일차", items: [
+                            { time: "01:30", desc: "삼아 출발 (TW634)", icon: "🛫" },
+                            { time: "06:30", desc: "청주공항 도착", icon: "🏠" }
+                        ]}
+                    ],
+                    "6day": [
+                        { day: "1~3일차", items: [{ time: "동일", desc: "3박 5일 일정과 1~3일차 동일", icon: "🔄" }] },
+                        { day: "4일차", items: [
+                            { time: "오전", desc: "리조트 뷔페 조식", icon: "🍳" },
+                            { time: "전일", desc: "전일 자유시간", icon: "🏖️" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 불포함 / 석: 불포함", icon: "🍴" }
+                        ]},
+                        { day: "5일차", items: [
+                            { time: "오전", desc: "리조트 뷔페 조식", icon: "🍳" },
+                            { time: "전일", desc: "자유시간 후 레이트 체크아웃(포함)", icon: "🧳" },
+                            { time: "22:00", desc: "공항으로 이동", icon: "🚌" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 불포함 / 석: 불포함", icon: "🍴" }
+                        ]},
+                        { day: "6일차", items: [
+                            { time: "01:30", desc: "삼아 출발 (TW634)", icon: "🛫" },
+                            { time: "06:30", desc: "청주공항 도착", icon: "🏠" }
+                        ]}
                     ]
                 }
+            },
+
+            // ================= 가성비(실속) 데이터 =================
+            budget: {
+                title: "하이난 실속 패키지",
+                subtitle: "핵심관광 포함 + 가성비 호텔",
+                colorClass: "bg-orange-500",
+                schedules: {
+                    "5day": [
+                        { day: "1일차", items: [
+                            { time: "18:00", desc: "청주공항 집결", icon: "📍" },
+                            { time: "20:40", desc: "청주 출발 (TW633)", icon: "✈️" },
+                            { time: "00:30", desc: "하이난 도착 / 가이드 미팅", icon: "🛬" },
+                            { time: "숙박", desc: "피닉스 글로리아 / 티벳 OR 동급", icon: "🏨" }
+                        ]},
+                        { day: "2일차", items: [
+                            { time: "오전", desc: "호텔 조식 및 자유시간", icon: "🍳" },
+                            { time: "오후", desc: "남산문화원 풍경구(대소동천) *전동카 불포함", icon: "🙏" },
+                            { time: "오후", desc: "열대과일시장 방문", icon: "🥭" },
+                            { time: "선택", desc: "추천옵션: 별빛투어 유람선($30)", icon: "🚢" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 현지식 / 석: 현지식", icon: "🍴" }
+                        ]},
+                        { day: "3일차", items: [
+                            { time: "오전", desc: "천애해각 (남천일주) *전동카 불포함", icon: "🌊" },
+                            { time: "오후", desc: "푸싱제(여행자 거리) 관광", icon: "🏙️" },
+                            { time: "선택", desc: "추천옵션: 삥랑빌리지($60)", icon: "👺" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 현지식 / 석: 한식", icon: "🍴" }
+                        ]},
+                        { day: "4일차", items: [
+                            { time: "선택", desc: "추천옵션: 원숭이섬+케이블카($50)", icon: "🐒" },
+                            { time: "오후", desc: "삼아 국제면세점 투어", icon: "🛍️" },
+                            { time: "저녁", desc: "녹회두 야경투어 *전동카 불포함", icon: "🌃" },
+                            { time: "22:00", desc: "공항으로 이동", icon: "🚌" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 현지식 / 석: 현지식", icon: "🍴" }
+                        ]},
+                        { day: "5일차", items: [
+                            { time: "01:30", desc: "삼아 출발 (TW634) -> 06:30 도착", icon: "🏠" }
+                        ]}
+                    ],
+                    "6day": [
+                        { day: "1~3일차", items: [{ time: "동일", desc: "3박 5일 일정과 1~3일차 동일", icon: "🔄" }] },
+                        { day: "4일차", items: [
+                            { time: "전일", desc: "호텔/리조트 내 전일 자유시간", icon: "🏖️" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 불포함 / 석: 불포함", icon: "🍴" }
+                        ]},
+                        { day: "5일차", items: [
+                            { time: "선택", desc: "추천옵션: 원숭이섬+케이블카($50)", icon: "🐒" },
+                            { time: "오후", desc: "삼아 국제면세점 투어", icon: "🛍️" },
+                            { time: "저녁", desc: "녹회두 야경투어", icon: "🌃" },
+                            { time: "식사", desc: "조: 호텔식 / 중: 현지식 / 석: 현지식", icon: "🍴" }
+                        ]},
+                        { day: "6일차", items: [
+                            { time: "01:30", desc: "삼아 출발 -> 06:30 도착", icon: "🏠" }
+                        ]}
+                    ]
+                }
+            }
+        };
+
+        // =========================================
+        // 기존 프리미엄 일정 스크립트 (유지)
+        // =========================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const premiumData = {
+                day1: { title: 'DAY 1: 설레는 출발', items: [ { time: '18:00', desc: '청주공항 1층 티웨이 카운터 앞 집결', icon: '📍' }, { time: '20:40', desc: '청주 출발 (TW633)', icon: '✈️' }, { time: '00:30', desc: '하이난 삼아 공항 도착 및 가이드 미팅', icon: '🛬' }, { time: '숙박', desc: '맹글로브 리조트 체크인 및 휴식', icon: '🏨' } ] },
+                day2: { title: 'DAY 2: 하이난 문화 탐방', items: [ { time: '오전', desc: '리조트 조식 후 자유시간 및 부대시설 이용', icon: '☕' }, { time: '오후', desc: '남산문화원 풍경구 (남산사/해수관음상) - 전동카 포함', icon: '🙏' }, { time: '오후', desc: '현지 열대과일 시장 방문 및 시식', icon: '🥭' }, { time: '저녁', desc: '✨ [특전] 별빛투어 유람선 탑승', icon: '🚢' }, { time: '식사', desc: '조: 호텔식 / 중: 현지식 / 석: 샤브샤브', icon: '🍴' } ] },
+                day3: { title: 'DAY 3: 로컬 체험과 액티비티', items: [ { time: '오전', desc: '삥랑빌리지 (소수민족 민속촌) - 공연 관람', icon: '👺' }, { time: '오후', desc: '원숭이섬 (케이블카 왕복 탑승)', icon: '🐒' }, { time: '오후', desc: '일월만 비치 & Bar 스트리트 자유 산책', icon: '🏄' }, { time: '저녁', desc: '✨ [특전] 삼겹살 무제한 특식', icon: '🍖' }, { time: '식사', desc: '조: 호텔식 / 중: 현지식 / 석: 삼겹살', icon: '🍴' } ] },
+                day4_5day: { title: 'DAY 4: 핵심 관광 후 귀국 (3박 5일)', items: [ { time: '오전', desc: '✨ [특전] 아룡만 열대천당 산림공원 (유리잔도)', icon: '🌲' }, { time: '오후', desc: '천애해각 - 전동카 포함', icon: '🌊' }, { time: '저녁', desc: '푸싱제(보행가) 시내 관광 및 야경', icon: '🌃' }, { time: '저녁', desc: '✨ [특전] 여행의 피로를 푸는 전신마사지 (1시간)', icon: '💆' }, { time: '22:00', desc: '공항으로 이동', icon: '🚌' } ] },
+                day4_6day: { title: 'DAY 4: 전일 자유 일정 (4박 6일)', items: [ { time: '전일', desc: '맹글로브 리조트 내 전일 자유시간', icon: '🏖️' }, { time: 'Tip', desc: '투숙객 무료 워터파크(아마존 정글) 이용 추천', icon: '💡' }, { time: '식사', desc: '조: 호텔식 / 중: 불포함 / 석: 불포함', icon: '🍴' } ] },
+                day5_6day: { title: 'DAY 5: 핵심 관광 후 귀국 (4박 6일)', items: [ { time: '오전', desc: '✨ [특전] 아룡만 열대천당 산림공원 (유리잔도)', icon: '🌲' }, { time: '오후', desc: '천애해각 - 전동카 포함', icon: '🌊' }, { time: '저녁', desc: '푸싱제(보행가) 시내 관광 및 야경', icon: '🌃' }, { time: '저녁', desc: '✨ [특전] 여행의 피로를 푸는 전신마사지 (1시간)', icon: '💆' }, { time: '22:00', desc: '공항으로 이동', icon: '🚌' } ] },
+                return_home: { title: '도착: 편안한 귀국', items: [ { time: '01:30', desc: '삼아 출발 (TW634)', icon: '🛫' }, { time: '06:30', desc: '청주공항 도착 및 해산', icon: '🏠' } ] }
             };
 
             let currentPackage = '5day';
             const tabsContainer = document.getElementById('tabs-content');
+            const dayTabsContainer = document.getElementById('day-tabs-container');
             const packageBtns = document.querySelectorAll('.package-tab-btn');
-            const dayBtns = document.querySelectorAll('.tab-btn');
+
+            // Initial Render
+            renderTabs();
+            renderSchedule('day1');
 
             packageBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     currentPackage = btn.dataset.package;
-                    packageBtns.forEach(b => {
-                        b.classList.remove('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
-                        b.classList.add('bg-white', 'text-gray-500', 'border-transparent');
-                    });
+                    packageBtns.forEach(b => { b.classList.remove('active', 'bg-emerald-700', 'text-white', 'border-emerald-700'); b.classList.add('bg-white', 'text-gray-500', 'border-transparent'); });
                     btn.classList.add('active', 'bg-emerald-700', 'text-white', 'border-emerald-700');
                     btn.classList.remove('bg-white', 'text-gray-500', 'border-transparent');
                     document.getElementById('price-5day').classList.toggle('hidden', currentPackage !== '5day');
                     document.getElementById('price-6day').classList.toggle('hidden', currentPackage !== '6day');
-                    document.querySelector('.tab-btn[data-tab="day1"]').click();
+                    renderTabs();
+                    renderSchedule('day1');
                 });
             });
 
-            dayBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    dayBtns.forEach(b => {
-                        b.classList.remove('active', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
-                        b.classList.add('text-gray-500', 'border-gray-200');
-                    });
-                    btn.classList.add('active', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
-                    btn.classList.remove('text-gray-500', 'border-gray-200');
-                    renderSchedule(btn.dataset.tab);
+            function renderTabs() {
+                let tabsHtml = '';
+                const days = currentPackage === '5day' ? ['day1', 'day2', 'day3', 'day4', 'day5_end'] : ['day1', 'day2', 'day3', 'day4', 'day5_6day', 'day5_end'];
+                const labels = currentPackage === '5day' ? ['1일차', '2일차', '3일차', '4일차', '마무리'] : ['1일차', '2일차', '3일차', '4일차', '5일차', '마무리'];
+                
+                days.forEach((day, index) => {
+                    const activeClass = index === 0 ? 'active bg-emerald-50 text-emerald-700 border-emerald-200' : 'text-gray-500 border-gray-200';
+                    tabsHtml += `<button class="tab-btn shrink-0 px-6 py-2 rounded-full border font-bold hover:bg-gray-50 ${activeClass}" onclick="clickTab(this, '${day}')">${labels[index]}</button>`;
                 });
-            });
+                dayTabsContainer.innerHTML = tabsHtml;
+            }
+
+            window.clickTab = function(btn, day) {
+                document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200'); b.classList.add('text-gray-500', 'border-gray-200'); });
+                btn.classList.add('active', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+                btn.classList.remove('text-gray-500', 'border-gray-200');
+                renderSchedule(day);
+            }
 
             function renderSchedule(day) {
                 let data = null;
                 let returnData = null;
 
-                if (day === 'day1') data = scheduleData.day1;
-                else if (day === 'day2') data = scheduleData.day2;
-                else if (day === 'day3') data = scheduleData.day3;
-                else if (day === 'day4') {
-                    data = currentPackage === '5day' ? scheduleData.day4_5day : scheduleData.day4_6day;
-                }
-                else if (day === 'day5_end') {
-                    if (currentPackage === '5day') {
-                         data = scheduleData.return_home; 
-                    } else {
-                         data = scheduleData.day5_6day; 
-                         returnData = scheduleData.return_home;
-                    }
-                }
+                if (['day1','day2','day3'].includes(day)) data = premiumData[day];
+                else if (day === 'day4') data = currentPackage === '5day' ? premiumData.day4_5day : premiumData.day4_6day;
+                else if (day === 'day5_6day') data = premiumData.day5_6day;
+                else if (day === 'day5_end') data = premiumData.return_home;
 
                 if (!data) return;
 
-                let html = `
-                    <div class="animate-fade-in">
-                        <h3 class="text-2xl font-bold text-slate-800 mb-2">${data.title}</h3>
-                        ${data.note ? `<p class="mb-6 text-sm text-emerald-600 bg-emerald-50 p-2 rounded-lg inline-block font-medium">${data.note}</p>` : '<div class="mb-6"></div>'}
-                        <div class="space-y-0">
-                `;
-
+                let html = `<div class="animate-fade-in"><h3 class="text-2xl font-bold text-slate-800 mb-6">${data.title}</h3><div class="space-y-0">`;
                 data.items.forEach(item => {
+                    html += `<div class="timeline-item"><div class="timeline-icon-wrapper shadow-sm text-sm">${item.icon}</div><div class="bg-slate-50 p-4 rounded-xl border border-slate-100 hover:shadow-md transition-shadow"><span class="text-emerald-600 font-bold text-sm block mb-1">${item.time}</span><span class="text-slate-700 font-medium">${item.desc}</span></div></div>`;
+                });
+                html += `</div></div>`;
+                tabsContainer.innerHTML = html;
+            }
+        });
+
+        // =========================================
+        // 모달(팝업) 로직 - 에어텔/가성비 전용
+        // =========================================
+        function openModal(type) {
+            currentModalType = type;
+            currentModalDuration = '5day'; // Reset to 5day default
+            
+            const data = allSchedules[type];
+            const modal = document.getElementById('itineraryModal');
+            
+            // 헤더 색상 설정
+            const header = document.getElementById('modalHeader');
+            header.className = `p-6 text-white flex justify-between items-center sticky top-0 z-10 ${type === 'airtel' ? 'bg-blue-600' : 'bg-orange-500'}`;
+            
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalSubtitle').innerText = data.subtitle;
+            
+            switchModalDuration('5day'); // Render initial content
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        }
+
+        function closeModal() {
+            document.getElementById('itineraryModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function switchModalDuration(duration) {
+            currentModalDuration = duration;
+            const data = allSchedules[currentModalType];
+            
+            // Toggle Button Styles
+            const btn5 = document.getElementById('modalBtn5');
+            const btn6 = document.getElementById('modalBtn6');
+            
+            // Active style definition based on type
+            const activeClass = currentModalType === 'airtel' ? 'bg-blue-600 text-white border-blue-600' : 'bg-orange-500 text-white border-orange-500';
+            const inactiveClass = 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50';
+
+            if (duration === '5day') {
+                btn5.className = `px-6 py-2 rounded-full text-sm font-bold transition border ${activeClass}`;
+                btn6.className = `px-6 py-2 rounded-full text-sm font-bold transition border ${inactiveClass}`;
+            } else {
+                btn5.className = `px-6 py-2 rounded-full text-sm font-bold transition border ${inactiveClass}`;
+                btn6.className = `px-6 py-2 rounded-full text-sm font-bold transition border ${activeClass}`;
+            }
+
+            // Render Schedule Content
+            const scheduleList = data.schedules[duration];
+            let html = '';
+            
+            scheduleList.forEach(day => {
+                html += `
+                    <div class="mb-8 relative pl-4 border-l-2 border-slate-200 last:border-0">
+                        <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full ${currentModalType === 'airtel' ? 'bg-blue-500' : 'bg-orange-500'}"></div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-3 pl-2">${day.day}</h4>
+                        <div class="space-y-3">
+                `;
+                day.items.forEach(item => {
                     html += `
-                        <div class="timeline-item">
-                            <div class="timeline-icon-wrapper shadow-sm text-sm">
-                                ${item.icon}
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
-                                <span class="text-emerald-600 font-bold text-sm block mb-1">${item.time}</span>
-                                <span class="text-slate-700 font-medium">${item.desc}</span>
+                        <div class="flex items-start bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="text-2xl mr-3">${item.icon}</span>
+                            <div>
+                                <span class="text-xs font-bold text-slate-500 block mb-0.5">${item.time}</span>
+                                <span class="text-sm text-slate-700 font-medium">${item.desc}</span>
                             </div>
                         </div>
                     `;
                 });
-
-                if (returnData) {
-                    html += `<div class="mt-8 pt-8 border-t border-dashed border-gray-200"><h3 class="text-xl font-bold text-slate-700 mb-6">🏁 ${returnData.title} (Day 6)</h3>`;
-                    returnData.items.forEach(item => {
-                         html += `
-                            <div class="timeline-item">
-                                <div class="timeline-icon-wrapper shadow-sm text-sm bg-slate-100 border-slate-300">${item.icon}</div>
-                                <div class="bg-slate-100 p-4 rounded-xl border border-slate-200">
-                                    <span class="text-slate-600 font-bold text-sm block mb-1">${item.time}</span>
-                                    <span class="text-slate-600 font-medium">${item.desc}</span>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                }
                 html += `</div></div>`;
-                tabsContainer.innerHTML = html;
-            }
-            renderSchedule('day1');
-        });
+            });
+            
+            document.getElementById('modalBody').innerHTML = html;
+        }
     </script>
 </body>
 </html>
